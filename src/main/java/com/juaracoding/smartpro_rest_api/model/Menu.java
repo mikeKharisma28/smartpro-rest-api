@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Division", schema = "MasterData")
+@Table(name = "Menu", schema = "MasterData")
 public class Menu {
 
     @Id

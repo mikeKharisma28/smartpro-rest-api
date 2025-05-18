@@ -15,11 +15,17 @@ public class Staff {
     @Column(name = "Id")
     private Long id;
 
-    @Column(name = "FullName", length = 70, unique = true)
+    @Column(name = "FullName", length = 70, unique = true, nullable = false)
     private String fullName;
 
     @Column(name = "PhoneNumber", length = 15, unique = true)
     private String phoneNumber;
+
+    @Column(name = "Username", length = 50, unique = true, nullable = false)
+    private String username;
+
+    @Column(name = "Password", nullable = false)
+    private String password;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -45,7 +51,6 @@ public class Staff {
     private Division division;
 
     // setters getters
-
     public Long getId() {
         return id;
     }
