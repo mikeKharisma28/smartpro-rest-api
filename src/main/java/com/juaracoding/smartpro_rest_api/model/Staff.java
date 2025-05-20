@@ -43,10 +43,6 @@ public class Staff {
 
     // columns that are foreign key
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RoleId", nullable = false)
-    private Role role;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DivisionId", nullable = false)
     private Division division;
 
@@ -73,6 +69,22 @@ public class Staff {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getCreatedBy() {
@@ -105,14 +117,6 @@ public class Staff {
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public Division getDivision() {

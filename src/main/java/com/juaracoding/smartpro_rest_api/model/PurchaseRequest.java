@@ -25,8 +25,8 @@ public class PurchaseRequest {
     @Column(name = "Unit", length = 10)
     private String unit;
 
-    @Column(name = "ItemPhotoUrl")
-    private LocalDate itemPhotoUrl;
+    @Column(name = "ItemSpecificationUrl")
+    private LocalDate itemSpecificationUrl;
 
     @Column(name = "ItemReferenceUrl")
     private LocalDate itemReferenceUrl;
@@ -44,7 +44,7 @@ public class PurchaseRequest {
     @Column(name = "UpdatedBy", insertable = false)
     private Long updatedBy;
 
-    @Column(name = "CreatedDate", insertable = false)
+    @Column(name = "UpdatedDate", insertable = false)
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
@@ -86,12 +86,12 @@ public class PurchaseRequest {
         this.unit = unit;
     }
 
-    public LocalDate getItemPhotoUrl() {
-        return itemPhotoUrl;
+    public LocalDate getItemSpecificationUrl() {
+        return itemSpecificationUrl;
     }
 
-    public void setItemPhotoUrl(LocalDate itemPhotoUrl) {
-        this.itemPhotoUrl = itemPhotoUrl;
+    public void setItemSpecificationUrl(LocalDate itemSpecificationUrl) {
+        this.itemSpecificationUrl = itemSpecificationUrl;
     }
 
     public LocalDate getItemReferenceUrl() {

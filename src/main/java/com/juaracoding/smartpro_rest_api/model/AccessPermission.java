@@ -44,12 +44,12 @@ public class AccessPermission {
 
     // columns that are foreign key
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RoleId", nullable = false)
-    private Role role;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MenuId", nullable = false)
     private Menu menu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DivisionId", nullable = false)
+    private Division division;
 
     // setters getters
     public Long getId() {
@@ -122,14 +122,6 @@ public class AccessPermission {
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public Menu getMenu() {

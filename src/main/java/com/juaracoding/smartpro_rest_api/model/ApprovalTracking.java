@@ -7,16 +7,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Role", schema = "MasterData")
-public class Role {
+@Table(name = "ApprovalTracking", schema = "TransactionData")
+public class ApprovalTracking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
 
-    @Column(name = "Name", length = 70, unique = true)
-    private String name;
+    @Column(name = "Notes")
+    private String notes;
+
+    @Column(name = "Timestamp")
+    private LocalDateTime timestamp;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -32,8 +35,20 @@ public class Role {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    // setters getters
+    // columns that are foreign keys
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ProcurementNo", nullable = false)
+    private ProcurementRequest procurementRequest;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PurchaseRequestNo", nullable = false)
+    private PurchaseRequest purchaseRequest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "StaffId", nullable = false)
+    private Staff staff;
+
+    // setters getters
     public Long getId() {
         return id;
     }
@@ -42,12 +57,20 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Long getCreatedBy() {
@@ -80,5 +103,29 @@ public class Role {
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public ProcurementRequest getProcurementRequest() {
+        return procurementRequest;
+    }
+
+    public void setProcurementRequest(ProcurementRequest procurementRequest) {
+        this.procurementRequest = procurementRequest;
+    }
+
+    public PurchaseRequest getPurchaseRequest() {
+        return purchaseRequest;
+    }
+
+    public void setPurchaseRequest(PurchaseRequest purchaseRequest) {
+        this.purchaseRequest = purchaseRequest;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 }

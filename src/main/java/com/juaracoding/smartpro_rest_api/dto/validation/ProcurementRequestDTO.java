@@ -1,0 +1,41 @@
+package com.juaracoding.smartpro_rest_api.dto.validation;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
+public class ProcurementRequestDTO {
+
+    @NotNull(message = "This field cannot be null!")
+    @Pattern(regexp = "^[a-zA-Z\\s]{5,50}$",message = "Format Invalid! Length allowed from 5 to 50 characters")
+    @JsonProperty("item-name")
+    private String itemName;
+
+    @NotNull(message = "This field cannot be null!")
+    @Pattern(regexp = "^[a-zA-Z\\s]{15,255}$",message = "Only alphabets are allowed and length from 15 to 255 characters")
+    @JsonProperty("item-description")
+    private String itemDescription;
+
+    @Pattern(regexp = "^(1[0-4]\\d|150|[1-9]\\d?|)$", message = "Only numeric are allowed, range of 1 to 150")
+    @JsonProperty("requested-quatity")
+    private Integer requestedQuantity;
+
+    @Pattern(regexp = "^[a-zA-Z\\s]{3,10}$",message = "Only alphabets are allowed and length from 3 to 10 characters")
+    private String unit;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonProperty("expected-date")
+    private LocalDate expectedDate;
+
+    private Integer status = 0;
+}

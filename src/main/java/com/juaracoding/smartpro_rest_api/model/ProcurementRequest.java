@@ -21,7 +21,7 @@ public class ProcurementRequest {
     @Column(name = "ItemDescription", length = 100, unique = true)
     private String itemDescription;
 
-    @Column(name = "RequestQuantity", nullable = false)
+    @Column(name = "RequestedQuantity", nullable = false)
     private Integer requestedQuantity;
 
     @Column(name = "Unit", length = 10)
