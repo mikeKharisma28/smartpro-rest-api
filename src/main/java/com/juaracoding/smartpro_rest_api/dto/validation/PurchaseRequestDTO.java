@@ -31,4 +31,53 @@ public class PurchaseRequestDTO {
     private String linkReferenceUrl;
 
     private Integer status = 0;
+
+    // setters getters
+    public Decimal getEstimatedPrice() {
+        return estimatedPrice;
+    }
+
+    public void setEstimatedPrice(Decimal estimatedPrice) {
+        this.estimatedPrice = estimatedPrice;
+    }
+
+    public Integer getEstimatedQuantity() {
+        return estimatedQuantity;
+    }
+
+    public void setEstimatedQuantity(Integer estimatedQuantity) {
+        this.estimatedQuantity = estimatedQuantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getLinkSpecificationUrl() {
+        return linkSpecificationUrl;
+    }
+
+    public void setLinkSpecificationUrl(String linkSpecificationUrl) {
+        this.linkSpecificationUrl = linkSpecificationUrl;
+    }
+
+    public String getLinkReferenceUrl() {
+        return linkReferenceUrl;
+    }
+
+    public void setLinkReferenceUrl(String linkReferenceUrl) {
+        this.linkReferenceUrl = linkReferenceUrl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }
