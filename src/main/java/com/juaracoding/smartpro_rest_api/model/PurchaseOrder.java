@@ -28,6 +28,9 @@ public class PurchaseOrder {
     @Column(name = "TotalAmount", nullable = false)
     private Decimal totalAmount;
 
+    @Column(name = "Status", nullable = false)
+    private Integer status;
+
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
 
@@ -86,6 +89,14 @@ public class PurchaseOrder {
 
     public void setTotalAmount(Decimal totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Long getCreatedBy() {
