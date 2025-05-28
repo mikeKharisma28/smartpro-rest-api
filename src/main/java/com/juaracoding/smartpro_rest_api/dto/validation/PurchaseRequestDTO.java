@@ -30,8 +30,9 @@ public class PurchaseRequestDTO {
     @Pattern(regexp = "^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w]{2,}(\\/\\S*)?$\n", message = "Format URL invalid!")
     private String linkReferenceUrl;
 
-    private Integer status = 0;
-
+    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+    private Integer status;
+  
     // setters getters
     public Decimal getEstimatedPrice() {
         return estimatedPrice;

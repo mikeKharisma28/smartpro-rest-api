@@ -9,24 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StaffRepo extends JpaRepository<Staff, Long> {
-    Optional<Staff> findByEmail(String email);
-    Optional<Staff> findByStaffname(String username);
-    Optional<Staff> findByStaffnameAndIsRegistered(String username, Boolean valid);
-    Optional<Staff> findByStaffnameOrEmailOrNoHp(String username,String email,String noHp);
-    Optional<Staff> findByStaffnameOrEmailOrNoHpAndIsRegistered(String username, String email, String noHp, Boolean valid);
 
-    public Page<Staff> findByNamaLengkapContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Staff> findByAlamatContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Staff> findByEmailContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Staff> findByStaffnameContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Staff> findByNoHpContainsIgnoreCase(String nama, Pageable pageable);
-//    public Page<Staff> findByTanggalLahirContainsIgnoreCase(String nama, Pageable pageable);
+    Optional<Staff> findById(Long id);
+    Optional<Staff> findByUsername(String username);
+    Optional<Staff> findByUsernameAndIsRegistered(String username, Boolean isRegistered);
+    Optional<Staff> findByUsernameOrIdOrPhoneNumber(String username, Long id, String phoneNumber);
+    Optional<Staff> findByUsernameOrIdOrPhoneNumberAndIsRegistered(String username, Long id, String phoneNumber, Boolean isRegistered);
 
-    public List<Staff> findByNamaLengkapContainsIgnoreCase(String nama);
-    public List<Staff> findByAlamatContainsIgnoreCase(String nama);
-    public List<Staff> findByEmailContainsIgnoreCase(String nama);
-    public List<Staff> findByStaffnameContainsIgnoreCase(String nama);
-    public List<Staff> findByNoHpContainsIgnoreCase(String nama);
-//    public List<Staff> findByTanggalLahirContainsIgnoreCase(String nama);
+    Page<Staff> findByFullNameContainsIgnoreCase(String fullName, Pageable pageable);
+    Page<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber, Pageable pageable);
+    Page<Staff> findByUsernameContainsIgnoreCase(String username, Pageable pageable);
 
+    List<Staff> findByFullNameContainsIgnoreCase(String fullName);
+    List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
+    List<Staff> findByUsernameContainsIgnoreCase(String username);
 }

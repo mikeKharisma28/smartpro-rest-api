@@ -6,14 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepo extends JpaRepository<Menu, Long> {
 
-    public Page<Menu> findByNamaContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Menu> findByPathContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Menu> findByDeskripsiContainsIgnoreCase(String nama, Pageable pageable);
+    Page<Menu> findById(Long id, Pageable pageable);
+    Page<Menu> findByNameContainsIgnoreCase(String name, Pageable pageable);
+    Page<Menu> findByUrlContainsIgnoreCase(String url, Pageable pageable);
 
-    public List<Menu> findByNamaContainsIgnoreCase(String nama);
-    public List<Menu> findByPathContainsIgnoreCase(String nama);
-    public List<Menu> findByDeskripsiContainsIgnoreCase(String nama);
+    List<Menu> findByParentId(Long parentId);
+    List<Menu> findByNameContainsIgnoreCase(String name);
+    List<Menu> findByUrlContainsIgnoreCase(String url);
+
 }

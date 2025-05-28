@@ -37,7 +37,8 @@ public class ProcurementRequestDTO {
     @JsonProperty("expected-date")
     private LocalDate expectedDate;
 
-    private Integer status = 0;
+    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+    private Integer status;
 
     // setters getters
     public String getItemName() {
