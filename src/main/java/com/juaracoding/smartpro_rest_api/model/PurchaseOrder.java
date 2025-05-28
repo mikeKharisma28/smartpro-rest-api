@@ -1,11 +1,10 @@
 package com.juaracoding.smartpro_rest_api.model;
 
 import jakarta.persistence.*;
-import org.apache.poi.hpsf.Decimal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,13 +19,13 @@ public class PurchaseOrder {
     private Integer quantityOrdered;
 
     @Column(name = "UnitPrice", nullable = false)
-    private Decimal unitPrice;
+    private BigDecimal unitPrice;
 
     @Column(name = "Unit", length = 10)
     private String unit;
 
     @Column(name = "TotalAmount", nullable = false)
-    private Decimal totalAmount;
+    private BigDecimal totalAmount;
 
     @Column(name = "Status", nullable = false)
     private Integer status;
@@ -41,7 +40,7 @@ public class PurchaseOrder {
     @Column(name = "UpdatedBy", insertable = false)
     private Long updatedBy;
 
-    @Column(name = "CreatedDate", insertable = false)
+    @Column(name = "UpdatedDate", insertable = false)
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
@@ -67,11 +66,11 @@ public class PurchaseOrder {
         this.quantityOrdered = quantityOrdered;
     }
 
-    public Decimal getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Decimal unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -83,11 +82,11 @@ public class PurchaseOrder {
         this.unit = unit;
     }
 
-    public Decimal getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Decimal totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

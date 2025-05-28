@@ -17,7 +17,7 @@ public class MainConfig {
 
     @Primary
     @Bean
-    private DataSource getDataSource() {
+    public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
         dataSourceBuilder.url(env.getProperty("spring.datasource.url"));

@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface AccessPermissionRepo extends JpaRepository<AccessPermission, Long> {
 
-    public Page<AccessPermission> findById(Long id, Pageable pageable);
-    public Page<AccessPermission> findByAllowReadContains(Boolean allowRead, Pageable pageable);
-
-    public List<AccessPermission> findByIdContains(Long id);
-    public List<AccessPermission> findByAllowReadContains(Boolean allowRead);
+//    public Page<AccessPermission> findById(Long id, Pageable pageable);
+//    public Page<AccessPermission> findByAllowReadContains(Boolean allowRead, Pageable pageable);
+//
+//    public List<AccessPermission> findByIdContains(Long id);
+//    public List<AccessPermission> findByAllowReadContains(Boolean allowRead);
 }

@@ -31,7 +31,7 @@ public class ApprovalTracking {
     @Column(name = "UpdatedBy", insertable = false)
     private Long updatedBy;
 
-    @Column(name = "CreatedDate", insertable = false)
+    @Column(name = "UpdatedDate", insertable = false)
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
