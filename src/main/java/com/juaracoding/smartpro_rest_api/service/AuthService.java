@@ -8,6 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class AuthService {
+public class AuthService implements UserDetailsService {
 
     @Autowired
     private StaffRepo staffRepo;
@@ -46,6 +50,18 @@ public class AuthService {
         }
 
         return null;
+    }
+
+    // override functions
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Staff> opStaff = staffRepo.findByUsername(username);
+        if (opStaff.isEmpty()) {
+            throw new UsernameNotFoundException("Username not found!");
+        }
+
+        Staff existing = opStaff.get();
+        return new User(existing.getUsername(), existing.getPassword(), existing.getAuthorities());
     }
 
     // additional functions

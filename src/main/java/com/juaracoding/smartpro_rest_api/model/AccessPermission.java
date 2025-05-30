@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "AccessPermission", schema = "MasterData")
@@ -15,18 +16,6 @@ public class AccessPermission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
-
-    @Column(name = "AllowRead", nullable = false)
-    private Boolean allowRead;
-
-    @Column(name = "AllowCreate", nullable = false)
-    private Boolean allowCreate;
-
-    @Column(name = "AllowUpdate", nullable = false)
-    private Boolean allowUpdate;
-
-    @Column(name = "AllowDelete", nullable = false)
-    private Boolean allowDelete;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -43,13 +32,14 @@ public class AccessPermission {
     private LocalDateTime updatedDate;
 
     // columns that are foreign key
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MenuId", nullable = false)
-    private Menu menu;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DivisionId", nullable = false)
-    private Division division;
+    @ManyToMany
+    @JoinTable(
+            name = "AccessMenu",
+            uniqueConstraints = @UniqueConstraint(columnNames = {"AccessId", "MenuId"}),
+            joinColumns = @JoinColumn(name = "AccessId"),
+            inverseJoinColumns = @JoinColumn(name = "MenuId")
+    )
+    private List<Menu> menus;
 
     // setters getters
     public Long getId() {
@@ -58,38 +48,6 @@ public class AccessPermission {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Boolean getAllowRead() {
-        return allowRead;
-    }
-
-    public void setAllowRead(Boolean allowRead) {
-        this.allowRead = allowRead;
-    }
-
-    public Boolean getAllowCreate() {
-        return allowCreate;
-    }
-
-    public void setAllowCreate(Boolean allowCreate) {
-        this.allowCreate = allowCreate;
-    }
-
-    public Boolean getAllowUpdate() {
-        return allowUpdate;
-    }
-
-    public void setAllowUpdate(Boolean allowUpdate) {
-        this.allowUpdate = allowUpdate;
-    }
-
-    public Boolean getAllowDelete() {
-        return allowDelete;
-    }
-
-    public void setAllowDelete(Boolean allowDelete) {
-        this.allowDelete = allowDelete;
     }
 
     public Long getCreatedBy() {
@@ -124,11 +82,11 @@ public class AccessPermission {
         this.updatedDate = updatedDate;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }
