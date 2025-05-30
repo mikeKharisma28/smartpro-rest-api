@@ -1,7 +1,8 @@
 package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import jakarta.validation.constraints.Pattern;
-import org.apache.poi.hpsf.Decimal;
+
+import java.math.BigDecimal;
 
 public class PurchaseOrderDTO {
 
@@ -9,13 +10,13 @@ public class PurchaseOrderDTO {
     private Integer quantityOrdered;
 
     @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
-    private Decimal unitPrice;
+    private BigDecimal unitPrice;
 
     @Pattern(regexp = "^[a-zA-Z\\s]{3,10}$", message = "Only alphabets are allowed and length from 3 to 10 characters")
     private String unit;
 
     @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
-    private Decimal totalAmount;
+    private BigDecimal totalAmount;
 
     @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
     private Integer status;
@@ -28,11 +29,11 @@ public class PurchaseOrderDTO {
         this.quantityOrdered = quantityOrdered;
     }
 
-    public Decimal getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Decimal unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -44,11 +45,11 @@ public class PurchaseOrderDTO {
         this.unit = unit;
     }
 
-    public Decimal getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Decimal totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

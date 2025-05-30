@@ -10,17 +10,15 @@ import java.util.Optional;
 
 public interface StaffRepo extends JpaRepository<Staff, Long> {
 
-//    Optional<Staff> findById(Long id);
-//    Optional<Staff> findByUsername(String username);
-//    Optional<Staff> findByUsernameAndIsRegistered(String username, Boolean isRegistered);
-//    Optional<Staff> findByUsernameOrIdOrPhoneNumber(String username, Long id, String phoneNumber);
-//    Optional<Staff> findByUsernameOrIdOrPhoneNumberAndIsRegistered(String username, Long id, String phoneNumber, Boolean isRegistered);
-//
-//    Page<Staff> findByFullNameContainsIgnoreCase(String fullName, Pageable pageable);
-//    Page<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber, Pageable pageable);
-//    Page<Staff> findByUsernameContainsIgnoreCase(String username, Pageable pageable);
-//
-//    List<Staff> findByFullNameContainsIgnoreCase(String fullName);
-//    List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
-//    List<Staff> findByUsernameContainsIgnoreCase(String username);
+    Optional<Staff> findById(Long id);
+    Optional<Staff> findByUsername(String username);
+    Optional<Staff> findByUsernameOrIdOrPhoneNumber(String username, Long id, String phoneNumber);
+
+    Page<Staff> findByFullNameContainsIgnoreCase(String fullName, Pageable pageable);
+    Page<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber, Pageable pageable);
+    Page<Staff> findByUsernameContainsIgnoreCase(String username, Pageable pageable);
+
+    List<Staff> findByFullNameContainsIgnoreCase(String fullName);
+    List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
+    List<Staff> findByUsernameContainsIgnoreCase(String username);
 }
