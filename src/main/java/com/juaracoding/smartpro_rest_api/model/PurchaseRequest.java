@@ -1,10 +1,10 @@
 package com.juaracoding.smartpro_rest_api.model;
 
 import jakarta.persistence.*;
-import org.apache.poi.hpsf.Decimal;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ public class PurchaseRequest {
     private String purchaseRequestNo;
 
     @Column(name = "EstimatedPrice", nullable = false)
-    private Decimal estimatedPrice;
+    private BigDecimal estimatedPrice;
 
     @Column(name = "EstimatedQuantity", nullable = false)
     private Integer estimatedQuantity;
@@ -62,11 +62,11 @@ public class PurchaseRequest {
         this.purchaseRequestNo = purchaseRequestNo;
     }
 
-    public Decimal getEstimatedPrice() {
+    public BigDecimal getEstimatedPrice() {
         return estimatedPrice;
     }
 
-    public void setEstimatedPrice(Decimal estimatedPrice) {
+    public void setEstimatedPrice(BigDecimal estimatedPrice) {
         this.estimatedPrice = estimatedPrice;
     }
 

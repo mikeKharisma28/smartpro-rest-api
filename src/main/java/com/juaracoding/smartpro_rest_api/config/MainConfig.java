@@ -1,5 +1,7 @@
 package com.juaracoding.smartpro_rest_api.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +19,7 @@ public class MainConfig {
 
     @Primary
     @Bean
-    private DataSource getDataSource() {
+    public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
         dataSourceBuilder.url(env.getProperty("spring.datasource.url"));
@@ -25,5 +27,15 @@ public class MainConfig {
         dataSourceBuilder.password(env.getProperty("spring.datasource.password"));
 
         return dataSourceBuilder.build();
+    }
+
+    @Bean
+    public ModelMapper getModelMapper() {
+        return new ModelMapper();
+    }
+
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
     }
 }

@@ -10,12 +10,12 @@ import java.util.Optional;
 
 public interface MenuRepo extends JpaRepository<Menu, Long> {
 
-    Page<Menu> findById(Long id, Pageable pageable);
-    Page<Menu> findByNameContainsIgnoreCase(String name, Pageable pageable);
-    Page<Menu> findByUrlContainsIgnoreCase(String url, Pageable pageable);
-
-    List<Menu> findByParentId(Long parentId);
-    List<Menu> findByNameContainsIgnoreCase(String name);
-    List<Menu> findByUrlContainsIgnoreCase(String url);
+//    Page<Menu> findById(Long id, Pageable pageable);
+//    Page<Menu> findByNameContainsIgnoreCase(String name, Pageable pageable);
+//    Page<Menu> findByUrlContainsIgnoreCase(String url, Pageable pageable);
+//
+//    List<Menu> findByParentId(Long parentId);
+//    List<Menu> findByNameContainsIgnoreCase(String name);
+//    List<Menu> findByUrlContainsIgnoreCase(String url);
 
 }

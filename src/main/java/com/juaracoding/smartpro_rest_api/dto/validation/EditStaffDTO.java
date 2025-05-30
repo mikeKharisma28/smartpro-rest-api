@@ -1,6 +1,8 @@
 package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.juaracoding.smartpro_rest_api.dto.relation.SelectDivisionDTO;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class EditStaffDTO {
@@ -16,6 +18,9 @@ public class EditStaffDTO {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@_#\\-$])[\\w].{8,15}$",
             message = "Minimum format allowed: 1 number, 1 lowercase letter, 1 uppercase letter, 1 special characters (_ \"Underscore\", - \"Hyphen\", # \"Hash\", or $ \"Dollar\" or @ \"At\"). Password length allowed 9-16 characters alphanumeric combinations, example: P@ssw0rd123")
     private String password;
+
+    @NotNull(message = "Division should not be null!")
+    private SelectDivisionDTO division;
 
     // setters getters
     public String getPhoneNumber() {

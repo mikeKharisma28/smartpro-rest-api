@@ -12,9 +12,7 @@ public interface StaffRepo extends JpaRepository<Staff, Long> {
 
     Optional<Staff> findById(Long id);
     Optional<Staff> findByUsername(String username);
-    Optional<Staff> findByUsernameAndIsRegistered(String username, Boolean isRegistered);
     Optional<Staff> findByUsernameOrIdOrPhoneNumber(String username, Long id, String phoneNumber);
-    Optional<Staff> findByUsernameOrIdOrPhoneNumberAndIsRegistered(String username, Long id, String phoneNumber, Boolean isRegistered);
 
     Page<Staff> findByFullNameContainsIgnoreCase(String fullName, Pageable pageable);
     Page<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber, Pageable pageable);
