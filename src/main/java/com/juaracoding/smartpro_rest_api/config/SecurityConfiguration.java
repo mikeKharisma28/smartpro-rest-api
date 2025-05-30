@@ -9,6 +9,5 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    @Autowired
-    private Jwt
+
 }
