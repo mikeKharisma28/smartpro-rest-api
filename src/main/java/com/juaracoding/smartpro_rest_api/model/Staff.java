@@ -3,12 +3,19 @@ package com.juaracoding.smartpro_rest_api.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Staff", schema = "MasterData")
-public class Staff {
+public class Staff implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +52,10 @@ public class Staff {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DivisionId", nullable = false)
     private Division division;
+
+    @ManyToOne
+    @JoinColumn(name = "AccessId")
+    private AccessPermission access;
 
     // setters getters
     public Long getId() {
@@ -125,5 +136,45 @@ public class Staff {
 
     public void setDivision(Division division) {
         this.division = division;
+    }
+
+    public AccessPermission getAccess() {
+        return access;
+    }
+
+    public void setAccess(AccessPermission access) {
+        this.access = access;
+    }
+
+    // override functions
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Menu> menuList = this.access.getMenus();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (Menu m : menuList) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(m.getName()));
+        }
+
+        return grantedAuthorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

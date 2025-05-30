@@ -43,11 +43,6 @@ public class Menu {
     private Menu parent;
 
     // members
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> children = new ArrayList<>();
-
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccessPermission> accessPermissions = new ArrayList<>();
 
     // setters getters
     public Long getId() {
@@ -112,21 +107,5 @@ public class Menu {
 
     public void setParent(Menu parent) {
         this.parent = parent;
-    }
-
-    public List<Menu> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Menu> children) {
-        this.children = children;
-    }
-
-    public List<AccessPermission> getAccessPermissions() {
-        return accessPermissions;
-    }
-
-    public void setAccessPermissions(List<AccessPermission> accessPermissions) {
-        this.accessPermissions = accessPermissions;
     }
 }
