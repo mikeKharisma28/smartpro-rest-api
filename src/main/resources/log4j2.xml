@@ -10,11 +10,11 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.juarcoding.mlkspringboot" level="fatal" additivity="false">
+        <Logger name="com.juarcoding.smartpro_rest_api" level="info" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileLogger"/>
         </Logger>
-        <Root level="fatal">
+        <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

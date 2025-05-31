@@ -35,6 +35,7 @@ public class AccessPermission {
     @ManyToMany
     @JoinTable(
             name = "AccessMenu",
+            schema = "MasterData",
             uniqueConstraints = @UniqueConstraint(columnNames = {"AccessId", "MenuId"}),
             joinColumns = @JoinColumn(name = "AccessId"),
             inverseJoinColumns = @JoinColumn(name = "MenuId")
