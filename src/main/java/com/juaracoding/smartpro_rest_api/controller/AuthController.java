@@ -18,8 +18,8 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletRequest request) {
-        return authService.login(authService.parseDto(loginDTO), request);
+        return authService.login(authService.parseToModel(loginDTO), request);
     }
 }

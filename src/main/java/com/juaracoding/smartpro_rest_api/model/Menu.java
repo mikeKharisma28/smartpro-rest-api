@@ -5,8 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "Menu", schema = "MasterData")
@@ -20,8 +18,8 @@ public class Menu {
     @Column(name = "Name", length = 70, unique = true)
     private String name;
 
-    @Column(name = "Url")
-    private String url;
+    @Column(name = "Path")
+    private String path;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -61,12 +59,12 @@ public class Menu {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Long getCreatedBy() {

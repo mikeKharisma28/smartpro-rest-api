@@ -1,9 +1,8 @@
 package com.juaracoding.smartpro_rest_api.core;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-
-import java.awt.print.Pageable;
 
 public interface IApproval<T> {
     public ResponseEntity<Object> approve(String no, T t, HttpServletRequest request);

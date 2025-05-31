@@ -63,5 +63,6 @@ public class JwtFilter extends OncePerRequestFilter {
         catch (Exception e) {
             LoggingFile.logException("JwtFilter", "doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) " + RequestCapture.allRequest(request), e);
         }
+        filterChain.doFilter(request, response);
     }
 }
