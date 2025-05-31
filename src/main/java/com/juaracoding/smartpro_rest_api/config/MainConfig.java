@@ -1,6 +1,8 @@
 package com.juaracoding.smartpro_rest_api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.juaracoding.smartpro_rest_api.security.Crypto;
+import org.apache.commons.codec.digest.Crypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -22,9 +24,9 @@ public class MainConfig {
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
-        dataSourceBuilder.url(env.getProperty("spring.datasource.url"));
-        dataSourceBuilder.username(env.getProperty("spring.datasource.username"));
-        dataSourceBuilder.password(env.getProperty("spring.datasource.password"));
+        dataSourceBuilder.url(Crypto.performDecrypt(env.getProperty("spring.datasource.url")));
+        dataSourceBuilder.username(Crypto.performDecrypt(env.getProperty("spring.datasource.username")));
+        dataSourceBuilder.password(Crypto.performDecrypt(env.getProperty("spring.datasource.password")));
 
         return dataSourceBuilder.build();
     }
