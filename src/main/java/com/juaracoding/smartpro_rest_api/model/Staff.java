@@ -53,10 +53,6 @@ public class Staff implements UserDetails {
     @JoinColumn(name = "DivisionId", nullable = false)
     private Division division;
 
-    @ManyToOne
-    @JoinColumn(name = "AccessId")
-    private AccessPermission access;
-
     // setters getters
     public Long getId() {
         return id;
@@ -138,13 +134,7 @@ public class Staff implements UserDetails {
         this.division = division;
     }
 
-    public AccessPermission getAccess() {
-        return access;
-    }
 
-    public void setAccess(AccessPermission access) {
-        this.access = access;
-    }
 
     // override functions
     @Override
