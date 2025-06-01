@@ -48,12 +48,17 @@ public class JwtUtility {
     /** fungsi ini dipanggil saat login */
     public String doGenerateToken(Map<String, Object> claims, String subject) {
         Long timeMilis = System.currentTimeMillis();
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(timeMilis))
                 .setExpiration(new Date(timeMilis + JwtConfig.getTimeExpiration()))
                 .signWith(SignatureAlgorithm.HS512, JwtConfig.getSecretKey()).compact();
+
+        if(JwtConfig.getTokenEncryptEnable().equals("y")) {
+            token = Crypto.performEncrypt(token);
+        }
+        return token;
     }
 
     public Boolean validateToken(String token) {

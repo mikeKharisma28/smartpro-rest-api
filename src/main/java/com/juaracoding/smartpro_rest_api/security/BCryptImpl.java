@@ -10,4 +10,8 @@ public class BCryptImpl {
     public static Boolean verifyHash(String plain, String hashed) {
         return bcrypt.verifyHash(plain, hashed);
     }
+
+    public static void main(String[] args) {
+        System.out.println(hash("riyan.gunawanP@ssw0rd1"));
+    }
 }
