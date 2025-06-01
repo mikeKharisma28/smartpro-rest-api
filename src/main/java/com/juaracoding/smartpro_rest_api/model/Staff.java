@@ -53,6 +53,10 @@ public class Staff implements UserDetails {
     @JoinColumn(name = "DivisionId", nullable = false)
     private Division division;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RoleId", nullable = false)
+    private Role role;
+
     // setters getters
     public Long getId() {
         return id;
@@ -78,6 +82,7 @@ public class Staff implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -86,6 +91,7 @@ public class Staff implements UserDetails {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -134,12 +140,18 @@ public class Staff implements UserDetails {
         this.division = division;
     }
 
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     // override functions
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Menu> menuList = this.access.getMenus();
+        List<Menu> menuList = this.role.getMenus();
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Menu m : menuList) {
             grantedAuthorities.add(new SimpleGrantedAuthority(m.getName()));

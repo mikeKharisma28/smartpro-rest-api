@@ -27,6 +27,14 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private AuthService authService;
 
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/auth/");
+     }
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
@@ -63,6 +71,7 @@ public class JwtFilter extends OncePerRequestFilter {
         catch (Exception e) {
             LoggingFile.logException("JwtFilter", "doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) " + RequestCapture.allRequest(request), e);
         }
+
         filterChain.doFilter(request, response);
     }
 }
