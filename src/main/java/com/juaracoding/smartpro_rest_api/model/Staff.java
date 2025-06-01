@@ -154,7 +154,7 @@ public class Staff implements UserDetails {
         List<Menu> menuList = this.role.getMenus();
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Menu m : menuList) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(m.getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(m.getParent() == null ? m.getName() : m.getParent().getName() + m.getName()));
         }
 
         return grantedAuthorities;

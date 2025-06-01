@@ -70,10 +70,6 @@ public class AuthService implements UserDetailsService {
         String token = jwtUtility.doGenerateToken(response, existing.getUsername());
 
         response.put("menu", new TransformationDataMenu().doTransformAksesMenuLogin(menuList));
-        if(JwtConfig.getTokenEncryptEnable().equals("y")) {
-            token = Crypto.performDecrypt(token);
-        }
-
         response.put("token", token);
 
         return new ResponseHandler().handleResponse("Logged in!", HttpStatus.OK, response, null, request);
@@ -102,7 +98,7 @@ public class AuthService implements UserDetailsService {
             MenuLoginDTO menuLoginDTO = new MenuLoginDTO();
             menuLoginDTO.setName(menu.getName());
             menuLoginDTO.setPath(menu.getPath());
-            menuLoginDTO.setParentMenuName(menu.getParent().getName());
+            menuLoginDTO.setParentMenuName(menu.getParent() != null ? menu.getParent().getName() : "-");
             listMenuDto.add(menuLoginDTO);
         }
 
