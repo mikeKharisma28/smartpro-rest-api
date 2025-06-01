@@ -1,6 +1,7 @@
 package com.juaracoding.smartpro_rest_api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.juaracoding.smartpro_rest_api.security.Crypto;
 import org.apache.commons.codec.digest.Crypt;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,8 @@ public class MainConfig {
 
     @Bean
     public ObjectMapper getObjectMapper() {
-        return new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

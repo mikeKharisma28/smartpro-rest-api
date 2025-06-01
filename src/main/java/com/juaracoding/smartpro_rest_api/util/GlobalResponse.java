@@ -20,7 +20,7 @@ public class GlobalResponse {
     }
 
     public static ResponseEntity<Object> dataFound(Object data, HttpServletRequest request) {
-        return new ResponseHandler().handleResponse("Data found!", HttpStatus.FOUND, data, null, request);
+        return new ResponseHandler().handleResponse("Data found!", HttpStatus.OK, data, null, request);
     }
 
     // Failed responses
