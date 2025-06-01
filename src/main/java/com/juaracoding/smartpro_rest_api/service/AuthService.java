@@ -66,7 +66,7 @@ public class AuthService implements UserDetailsService {
         response.put("phoneNumber", existing.getPhoneNumber());
         response.put("fullName", existing.getFullName());
 
-        List<MenuLoginDTO> menuList = parseMenuDto(existing.getAccess().getMenus());
+        List<MenuLoginDTO> menuList = parseMenuDto(existing.getRole().getMenus());
         String token = jwtUtility.doGenerateToken(response, existing.getUsername());
 
         response.put("menu", new TransformationDataMenu().doTransformAksesMenuLogin(menuList));
@@ -76,7 +76,7 @@ public class AuthService implements UserDetailsService {
 
         response.put("token", token);
 
-        return new ResponseHandler().handleResponse("Logged in!", HttpStatus.OK, null, null, request);
+        return new ResponseHandler().handleResponse("Logged in!", HttpStatus.OK, response, null, request);
     }
 
     // override functions

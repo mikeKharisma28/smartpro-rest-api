@@ -33,16 +33,6 @@ public class Division {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "AccessMenu",
-            schema = "MasterData",
-            uniqueConstraints = @UniqueConstraint(columnNames = {"AccessId", "MenuId"}),
-            joinColumns = @JoinColumn(name = "AccessId"),
-            inverseJoinColumns = @JoinColumn(name = "MenuId")
-    )
-    private List<Menu> menus;
-
     // setters getters
     public Long getId() {
         return id;

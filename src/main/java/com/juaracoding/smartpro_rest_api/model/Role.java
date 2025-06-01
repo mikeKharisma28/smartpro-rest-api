@@ -2,20 +2,21 @@ package com.juaracoding.smartpro_rest_api.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "AccessPermission", schema = "MasterData")
-public class AccessPermission {
-
+@Table(name = "Role", schema = "MasterData")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
+
+    @Column(name = "Name", length = 70, unique = true)
+    private String name;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -31,13 +32,13 @@ public class AccessPermission {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    // columns that are foreign key
+    // foreign key with many-to-many relation
     @ManyToMany
     @JoinTable(
-            name = "AccessMenu",
+            name = "AccessPermission",
             schema = "MasterData",
-            uniqueConstraints = @UniqueConstraint(columnNames = {"AccessId", "MenuId"}),
-            joinColumns = @JoinColumn(name = "AccessId"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"RoleId", "MenuId"}),
+            joinColumns = @JoinColumn(name = "RoleId"),
             inverseJoinColumns = @JoinColumn(name = "MenuId")
     )
     private List<Menu> menus;
@@ -49,6 +50,14 @@ public class AccessPermission {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getCreatedBy() {
