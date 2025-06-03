@@ -1,6 +1,7 @@
 package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
@@ -15,10 +16,12 @@ public class PurchaseOrderDTO {
     @Pattern(regexp = "^[a-zA-Z\\s]{3,10}$", message = "Only alphabets are allowed and length from 3 to 10 characters")
     private String unit;
 
-    @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
+//    @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
+    @Range(min = 10000, max = 100000000, message = "Only numeric are allowed, range of 10000 to 100000000")
     private BigDecimal totalAmount;
 
-    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+//    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+    @Range(max = 3, message = "Only numeric are allowed, range of 0 to 3")
     private Integer status;
 
     public Integer getQuantityOrdered() {
