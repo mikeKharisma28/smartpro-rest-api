@@ -2,17 +2,18 @@ package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
 public class PurchaseRequestDTO {
 
-    @NotNull(message = "This field cannot be null!")
-    @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
+//    @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
+    @Range(min = 10000, max = 100000000, message = "Only numeric are allowed, range of 10000 to 100000000")
     private BigDecimal estimatedPrice;
 
-    @NotNull(message = "This field cannot be null!")
-    @Pattern(regexp = "^(1[0-4]\\d|150|[1-9]\\d?|)$", message = "Only numeric are allowed, range of 1 to 150")
+//    @Pattern(regexp = "^(1[0-4]\\d|150|[1-9]\\d?|)$", message = "Only numeric are allowed, range of 1 to 150")
+    @Range(min = 1, max = 150, message = "Only numeric are allowed, range of 1 to 150")
     private Integer estimatedQuantity;
 
     @Pattern(regexp = "^[a-zA-Z\\s]{3,10}$", message = "Only alphabets are allowed and length from 3 to 10 characters")
@@ -24,7 +25,8 @@ public class PurchaseRequestDTO {
     @Pattern(regexp = "^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w]{2,}(\\/\\S*)?$\n", message = "Format URL invalid!")
     private String linkReferenceUrl;
 
-    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+//    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
+    @Range(max = 3, message = "Only numeric are allowed, range of 0 to 3")
     private Integer status;
   
     // setters getters

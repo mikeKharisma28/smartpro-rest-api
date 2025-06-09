@@ -28,7 +28,7 @@ public class PurchaseOrder {
     private BigDecimal totalAmount;
 
     @Column(name = "Status", nullable = false)
-    private Integer status;
+    private Short status;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -90,11 +90,11 @@ public class PurchaseOrder {
         this.totalAmount = totalAmount;
     }
 
-    public Integer getStatus() {
+    public Short getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Short status) {
         this.status = status;
     }
 

@@ -34,6 +34,9 @@ public class Staff implements UserDetails {
     @Column(name = "Password", nullable = false)
     private String password;
 
+    @Column(name = "PhotoProfileUrl")
+    private String photoProfileUrl;
+
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
 
