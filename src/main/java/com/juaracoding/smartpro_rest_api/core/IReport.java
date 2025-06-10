@@ -5,5 +5,5 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface IReport<G> {
     public void downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response);
-    public void generateToPdf(String column, String value, HttpServletRequest request, HttpServletResponse response);
+    public void generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response);
 }
