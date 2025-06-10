@@ -1,12 +1,8 @@
-package com.juaracoding.smartpro_rest_api.dto.report;
+package com.juaracoding.smartpro_rest_api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-public class StaffListDTO {
+public class ResStaffDTO {
 
     private Long id;
 

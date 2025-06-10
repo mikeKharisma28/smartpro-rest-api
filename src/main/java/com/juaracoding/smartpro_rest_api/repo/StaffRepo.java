@@ -18,7 +18,7 @@ public interface StaffRepo extends JpaRepository<Staff, Long> {
     Page<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber, Pageable pageable);
     Page<Staff> findByUsernameContainsIgnoreCase(String username, Pageable pageable);
 
-//    List<Staff> findByFullNameContainsIgnoreCase(String fullName);
-//    List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
-//    List<Staff> findByUsernameContainsIgnoreCase(String username);
+    List<Staff> findByFullNameContainsIgnoreCase(String fullName);
+    List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
+    List<Staff> findByUsernameContainsIgnoreCase(String username);
 }
