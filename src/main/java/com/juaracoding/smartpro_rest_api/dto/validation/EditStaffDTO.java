@@ -1,6 +1,7 @@
 package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.juaracoding.smartpro_rest_api.dto.relation.RelDivisionDTO;
 import com.juaracoding.smartpro_rest_api.dto.relation.SelectDivisionDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -20,7 +21,7 @@ public class EditStaffDTO {
     private String password;
 
     @NotNull(message = "Division should not be null!")
-    private SelectDivisionDTO division;
+    private RelDivisionDTO division;
 
     // setters getters
     public String getPhoneNumber() {
@@ -45,5 +46,13 @@ public class EditStaffDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public RelDivisionDTO getDivision() {
+        return division;
+    }
+
+    public void setDivision(RelDivisionDTO division) {
+        this.division = division;
     }
 }

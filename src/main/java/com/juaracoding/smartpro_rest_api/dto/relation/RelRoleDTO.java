@@ -1,9 +1,6 @@
-package com.juaracoding.smartpro_rest_api.dto.report;
+package com.juaracoding.smartpro_rest_api.dto.relation;
 
-/***
- * Diambil dan dimasukkan ke dalam dropdown list
- */
-public class DivisionListDTO {
+public class RelRoleDTO {
 
     private Long id;
 

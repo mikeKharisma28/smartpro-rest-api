@@ -260,7 +260,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
 
             context.setVariables(mapResponse);
             strHtml = springTemplateEngine.process("global-report",context);
-            pdfGenerator.htmlToPdf(strHtml,"user",response);
+            pdfGenerator.htmlToPdf(strHtml,"staff",response);
         }catch (Exception e){
             GlobalResponse.
                     manualResponse(response,GlobalResponse.errorOccurred("AUT04FE081",request));

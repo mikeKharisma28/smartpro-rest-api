@@ -106,4 +106,5 @@ public class Menu {
     public void setParent(Menu parent) {
         this.parent = parent;
     }
+
 }
