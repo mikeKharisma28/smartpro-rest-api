@@ -24,7 +24,7 @@ public class PurchaseController {
 
     // Endpoint untuk mendapatkan daftar request
     @GetMapping("/request")
-    @PreAuthorize("hasAuthority('purchaseRequest')")
+    @PreAuthorize("hasAuthority('PurchaseRequest')")
     public ResponseEntity<Object> requestList(HttpServletRequest request) {
         return ResponseEntity.ok(purchaseService.findAll(PageRequest.of(0, 10), request));
     }

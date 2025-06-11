@@ -59,7 +59,7 @@ insert into MasterData.Menu(Name, Path, CreatedBy, CreatedDate) values (
 go
 
 insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values (
-	'Procurement Request', 
+	'Request',
 	(select id from MasterData.Menu where Name = 'Procurement'),
 	'/procurement/request', 
 	1, 
@@ -68,7 +68,7 @@ insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values
 go
 
 insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values (
-	'Procurement Approval', 
+	'Approval',
 	(select id from MasterData.Menu where Name = 'Procurement'),
 	'/procurement/approval', 
 	1, 
@@ -83,7 +83,7 @@ insert into MasterData.Menu(Name, Path, CreatedBy, CreatedDate) values (
 go
 
 insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values (
-	'Purchase Request', 
+	'Request',
 	(select id from MasterData.Menu where Name = 'Purchase'),
 	'/purchase/request', 
 	1, 
@@ -92,7 +92,7 @@ insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values
 go
 
 insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values (
-	'Purchase Approval', 
+	'Approval',
 	(select id from MasterData.Menu where Name = 'Purchase'),
 	'/purchase/approval', 
 	1, 
@@ -101,7 +101,7 @@ insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values
 go
 
 insert into MasterData.Menu(Name, ParentId, Path, CreatedBy, CreatedDate) values (
-	'Purchase Order', 
+	'Order',
 	(select id from MasterData.Menu where Name = 'Purchase'),
 	'/purchase/order', 
 	1, 
@@ -129,24 +129,36 @@ go
 
 insert into MasterData.AccessPermission (RoleId, MenuId) values (
 	(select Id from MasterData.Role where Name = 'Administrator'),
+	(select Id from MasterData.Menu where Name = 'Request' and ParentId = (select id from MasterData.Menu where Name = 'Procurement'))
+);
+go
+
+insert into MasterData.AccessPermission (RoleId, MenuId) values (
+	(select Id from MasterData.Role where Name = 'Administrator'),
+	(select Id from MasterData.Menu where Name = 'Approval' and ParentId = (select id from MasterData.Menu where Name = 'Procurement'))
+);
+go
+
+insert into MasterData.AccessPermission (RoleId, MenuId) values (
+	(select Id from MasterData.Role where Name = 'Administrator'),
 	(select Id from MasterData.Menu where Name = 'Purchase')
 );
 go
 
 insert into MasterData.AccessPermission (RoleId, MenuId) values (
 	(select Id from MasterData.Role where Name = 'Administrator'),
-	(select Id from MasterData.Menu where Name = 'Purchase Request')
+	(select Id from MasterData.Menu where Name = 'Request' and ParentId = (select id from MasterData.Menu where Name = 'Purchase'))
 );
 go
 
 insert into MasterData.AccessPermission (RoleId, MenuId) values (
 	(select Id from MasterData.Role where Name = 'Administrator'),
-	(select Id from MasterData.Menu where Name = 'Purchase Approval')
+	(select Id from MasterData.Menu where Name = 'Approval' and ParentId = (select id from MasterData.Menu where Name = 'Purchase'))
 );
 go
 
 insert into MasterData.AccessPermission (RoleId, MenuId) values (
 	(select Id from MasterData.Role where Name = 'Administrator'),
-	(select Id from MasterData.Menu where Name = 'Purchase Order')
+	(select Id from MasterData.Menu where Name = 'Order' and ParentId = (select id from MasterData.Menu where Name = 'Purchase'))
 );
 go
