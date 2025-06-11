@@ -15,7 +15,7 @@ public class Menu {
     @Column(name = "Id")
     private Long id;
 
-    @Column(name = "Name", length = 70, unique = true)
+    @Column(name = "Name", length = 70)
     private String name;
 
     @Column(name = "Path")
