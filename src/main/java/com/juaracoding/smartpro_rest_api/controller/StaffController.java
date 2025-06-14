@@ -24,14 +24,14 @@ public class StaffController {
 
     @Qualifier("resourceHandlerMapping")
     @PostMapping
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> save(@Valid @RequestBody EditStaffDTO editStaffDTO,
                                        HttpServletRequest request){
         return staffService.save(staffService.mapToUser(editStaffDTO),request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> update(@Valid @RequestBody EditStaffDTO editStaffDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
@@ -42,7 +42,7 @@ public class StaffController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return staffService.findAll(pageable,request);
