@@ -21,6 +21,9 @@ public class Menu {
     @Column(name = "Path")
     private String path;
 
+    @Column(name = "IconBootstrap")
+    private String iconBootstrap;
+
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
 
@@ -65,6 +68,14 @@ public class Menu {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getIconBootstrap() {
+        return iconBootstrap;
+    }
+
+    public void setIconBootstrap(String iconBootstrap) {
+        this.iconBootstrap = iconBootstrap;
     }
 
     public Long getCreatedBy() {

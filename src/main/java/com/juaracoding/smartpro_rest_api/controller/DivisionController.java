@@ -14,6 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
+
 @RestController
 @RequestMapping("division")
 public class DivisionController {
@@ -22,14 +30,14 @@ public class DivisionController {
     private DivisionService divisionService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('Division')")
+//    @PreAuthorize("hasAuthority('Division')")
     public ResponseEntity<Object> save(@Valid @RequestBody DivisionDTO divisionDTO,
                                        HttpServletRequest request){
         return divisionService.save(divisionService.mapToDivision(divisionDTO),request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Division')")
+//    @PreAuthorize("hasAuthority('Division')")
     public ResponseEntity<Object> update(@Valid @RequestBody DivisionDTO divisionDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
@@ -42,14 +50,14 @@ public class DivisionController {
      */
 
     @GetMapping
-    @PreAuthorize("hasAuthority('Division')")
+//    @PreAuthorize("hasAuthority('Division')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return divisionService.findAll(pageable, request);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Division')")
+//    @PreAuthorize("hasAuthority('Division')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){

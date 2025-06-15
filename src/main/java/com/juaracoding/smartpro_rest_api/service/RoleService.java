@@ -26,6 +26,13 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
+
 @Service
 @Transactional
 public class RoleService implements IService<Role>, IReport<Role> {
@@ -57,9 +64,9 @@ public class RoleService implements IService<Role>, IReport<Role> {
             role.setCreatedBy(Long.parseLong(m.get("staffId").toString()));
             roleRepo.save(role);
         }catch (Exception e){
-            return GlobalResponse.dataFailedToSave("AUT03FE001",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE001",request);
         }
-        return GlobalResponse.dataSaveSuccess(request);
+        return GlobalResponse.dataCreated(request);
     }
 
     @Override
@@ -67,14 +74,14 @@ public class RoleService implements IService<Role>, IReport<Role> {
         Map<String,Object> m = GlobalFunction.extractToken(request);
         try{
             if(id == null){
-                return GlobalResponse.objectIsNull("AUT03FV011",request);
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT03FV011",request);
             }
             if(role == null){
-                return GlobalResponse.objectIsNull("AUT03FV012",request);
+                return GlobalResponse.bodyParamRequestNull("Role object is null!", "AUT03FV012",request);
             }
             Optional<Role> opRole = roleRepo.findById(id);
             if(!opRole.isPresent()){
-                return GlobalResponse.dataNotFound("AUT03FV013",request);
+                return GlobalResponse.dataNotFound("AUT03FV013", request);
             }
             Role roleDB = opRole.get();
             roleDB.setName(role.getName());
@@ -82,10 +89,18 @@ public class RoleService implements IService<Role>, IReport<Role> {
             roleDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
 
         }catch (Exception e){
-            return GlobalResponse.dataFailedToChange("AUT03FE011",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE011", request);
         }
         return GlobalResponse.dataUpdated(request);
     }
+
+    /***
+     * Edited by : Michael
+     * Edited date : 2025-06-16
+     * @param pageable
+     * @param request
+     * @return
+     */
 
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
@@ -96,32 +111,32 @@ public class RoleService implements IService<Role>, IReport<Role> {
         try {
             page = roleRepo.findAll(pageable);
             if(page.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT03FV031",request);
+                return GlobalResponse.dataNotFound("AUT03FV031", request);
             }
             roleDTO = mapToDTO(page.getContent());
-            data = tp.transformPagination(roleDTO,page,"id","");
+            data = tp.transformPagination(roleDTO, page, "id", "");
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT03FE031",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE031", request);
         }
-        return GlobalResponse.dataFound(roleDTO,request);
+        return GlobalResponse.dataFound(data, request);
     }
 
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
         ResRoleDTO resRoleDTO = null;
         try{
-            if(id==null){
-                return GlobalResponse.objectIsNull("AUT03FV041",request);
+            if(id == null){
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT03FV041",request);
 
             }
             Optional<Role> opUser = roleRepo.findById(id);
-            if(!opUser.isPresent()){
+            if(opUser.isEmpty()){
                 return GlobalResponse.dataNotFound("AUT03FV042",request);
             }
             Role roleDB = opUser.get();
             resRoleDTO = mapToDTO(roleDB);
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT03FE041",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE041",request);
         }
 
         return GlobalResponse.dataFound(resRoleDTO,request);
@@ -144,7 +159,7 @@ public class RoleService implements IService<Role>, IReport<Role> {
             roleDTO = mapToDTO(page.getContent());
             data = tp.transformPagination(roleDTO,page,columnName,value);
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT03FE051",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE051",request);
         }
         return GlobalResponse.dataFound(roleDTO,request);
     }
@@ -196,7 +211,7 @@ public class RoleService implements IService<Role>, IReport<Role> {
             new ExcelWriter(strBody,headerArr,"sheet-1",response);
         }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT03FE071",request));
+                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE071",request));
             return;
         }
     }
@@ -246,7 +261,7 @@ public class RoleService implements IService<Role>, IReport<Role> {
             pdfGenerator.htmlToPdf(strHtml,"role",response);
         }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT03FE081",request));
+                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT03FE081",request));
             return;
         }
     }
