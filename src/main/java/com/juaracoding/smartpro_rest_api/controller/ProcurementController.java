@@ -1,7 +1,6 @@
 package com.juaracoding.smartpro_rest_api.controller;
 
 import com.juaracoding.smartpro_rest_api.config.OtherConfig;
-import com.juaracoding.smartpro_rest_api.dto.validation.MenuDTO;
 import com.juaracoding.smartpro_rest_api.dto.validation.ProcurementRequestDTO;
 import com.juaracoding.smartpro_rest_api.service.ProcurementService;
 import jakarta.servlet.http.HttpServletRequest;

@@ -54,7 +54,7 @@ public class ProcurementControllerTest extends AbstractTestNGSpringContextTests 
                     .header("accept", "*/*")
                     .header(AuthControllerTest.AUTH_HEADER, token)
                     .body(req)
-                    .request(Method.PATCH, "/procurement/request");
+                    .request(Method.POST, "/procurement/request");
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();

@@ -117,6 +117,7 @@ public class DataGenerator {
     }
 
     private String generateNo(String prefix) {
+        Random random = new Random();
         Long number = random.nextLong(1000000000, 9999999999L);
         String year = String.valueOf(Year.now().getValue()).substring(2);
         return String.format("%s-%s%s", prefix, year, number.toString());
