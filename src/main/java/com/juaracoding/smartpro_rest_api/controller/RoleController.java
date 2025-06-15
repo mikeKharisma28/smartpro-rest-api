@@ -15,6 +15,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
+
 @RestController
 @RequestMapping("role")
 public class RoleController {
@@ -24,14 +31,14 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public ResponseEntity<Object> save(@Valid @RequestBody RoleDTO roleDTO,
                                        HttpServletRequest request){
         return roleService.save(roleService.mapToRole(roleDTO),request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public ResponseEntity<Object> update(@Valid @RequestBody RoleDTO roleDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
@@ -42,14 +49,14 @@ public class RoleController {
      * Ketika role dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return roleService.findAll(pageable,request);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){
@@ -57,7 +64,7 @@ public class RoleController {
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -76,7 +83,7 @@ public class RoleController {
     }
 
     @GetMapping("/download-excel")
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public void downloadExcel(@RequestParam String column,
                               @RequestParam String value,
                               HttpServletRequest request,
@@ -85,7 +92,7 @@ public class RoleController {
     }
 
     @GetMapping("/download-pdf")
-    @PreAuthorize("hasAuthority('Role')")
+//    @PreAuthorize("hasAuthority('Role')")
     public void downloadPdf(@RequestParam String column,
                             @RequestParam String value,
                             HttpServletRequest request,

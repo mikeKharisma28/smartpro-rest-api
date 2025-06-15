@@ -15,6 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
+
 @RestController
 @RequestMapping("staff")
 public class StaffController {
@@ -23,7 +30,7 @@ public class StaffController {
     private StaffService staffService;
 
     @Qualifier("resourceHandlerMapping")
-    @PostMapping
+    @PostMapping("/create")
 //    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> save(@Valid @RequestBody EditStaffDTO editStaffDTO,
                                        HttpServletRequest request){
@@ -49,7 +56,7 @@ public class StaffController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){
@@ -57,7 +64,7 @@ public class StaffController {
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -76,7 +83,7 @@ public class StaffController {
     }
 
     @GetMapping("/download-excel")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public void downloadExcel(@RequestParam String column,
                               @RequestParam String value,
                               HttpServletRequest request,
@@ -85,7 +92,7 @@ public class StaffController {
     }
 
     @GetMapping("/download-pdf")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public void downloadPdf(@RequestParam String column,
                             @RequestParam String value,
                             HttpServletRequest request,
