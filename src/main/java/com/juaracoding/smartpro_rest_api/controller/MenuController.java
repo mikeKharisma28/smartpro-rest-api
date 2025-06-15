@@ -16,13 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
-/**
- * Author: Reynaldi
- * Created date: 2025-06-11
- * Edited by: Michael
- * Edited date: 2025-06-16
- */
-
 @RestController
 @RequestMapping("menu")
 public class MenuController {
@@ -37,14 +30,14 @@ public class MenuController {
 
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> save(@Valid @RequestBody MenuDTO menuDTO,
                                        HttpServletRequest request){
         return menuService.save(menuService.mapToMenu(menuDTO),request);
     }
 
     @PutMapping("/{id}")
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> update(@Valid @RequestBody MenuDTO menuDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
@@ -55,14 +48,14 @@ public class MenuController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return menuService.findAll(pageable,request);
     }
 
     @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){
@@ -70,7 +63,7 @@ public class MenuController {
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -89,7 +82,7 @@ public class MenuController {
     }
 
     @GetMapping("/download-excel")
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public void downloadExcel(@RequestParam String column,
                               @RequestParam String value,
                               HttpServletRequest request,
@@ -98,7 +91,7 @@ public class MenuController {
     }
 
     @GetMapping("/download-pdf")
-//    @PreAuthorize("hasAuthority('Menu')")
+    @PreAuthorize("hasAuthority('Menu')")
     public void downloadPdf(@RequestParam String column,
                             @RequestParam String value,
                             HttpServletRequest request,

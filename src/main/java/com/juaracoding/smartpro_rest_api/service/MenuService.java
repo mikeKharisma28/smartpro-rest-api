@@ -27,13 +27,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Author: Reynaldi
- * Created date: 2025-06-11
- * Edited by: Michael
- * Edited date: 2025-06-16
- */
-
 @Service
 @Transactional
 public class MenuService implements IService<Menu>, IReport<Menu> {
@@ -65,9 +58,9 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
             menu.setCreatedBy(Long.parseLong(m.get("staffId").toString()));
             menuRepo.save(menu);
         }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE001",request);
+            return GlobalResponse.dataFailedToSave("AUT02FE001",request);
         }
-        return GlobalResponse.dataCreated(request);
+        return GlobalResponse.dataSaveSuccess(request);
     }
 
     @Override
@@ -75,10 +68,10 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
         Map<String,Object> m = GlobalFunction.extractToken(request);
         try{
             if(id == null){
-                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT02FV011", request);
+                return GlobalResponse.objectIsNull("AUT02FV011",request);
             }
             if(menu == null){
-                return GlobalResponse.bodyParamRequestNull("Menu object is null!", "AUT02FV012", request);
+                return GlobalResponse.objectIsNull("AUT02FV012",request);
             }
             Optional<Menu> opMenu = menuRepo.findById(id);
             if(!opMenu.isPresent()){
@@ -90,19 +83,11 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
             menuDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
 
         }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE011",request);
+            return GlobalResponse.dataFailedToChange("AUT02FE011",request);
         }
         return GlobalResponse.dataUpdated(request);
     }
 
-    /***
-     * Edited by : Michael
-     * Edited date : 2025-06-16
-     * @param pageable
-     * @param request
-     * @return
-     */
-    
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
         Page<Menu> page = null;
@@ -112,14 +97,14 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
         try {
             page = menuRepo.findAll(pageable);
             if(page.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT02FV031", request);
+                return GlobalResponse.dataNotFound("AUT02FV031",request);
             }
             menuDTO = mapToDTO(page.getContent());
-            data = tp.transformPagination(menuDTO, page, "id", "");
+            data = tp.transformPagination(menuDTO,page,"id","");
         }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE031", request);
+            return GlobalResponse.errorOccurred("AUT02FE031",request);
         }
-        return GlobalResponse.dataFound(data, request);
+        return GlobalResponse.dataFound(menuDTO,request);
     }
 
     @Override
@@ -127,7 +112,7 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
         ResMenuDTO resMenuDTO = null;
         try{
             if(id==null){
-                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT02FV041", request);
+                return GlobalResponse.objectIsNull("AUT02FV041",request);
 
             }
             Optional<Menu> opUser = menuRepo.findById(id);
@@ -137,7 +122,7 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
             Menu menuDB = opUser.get();
             resMenuDTO = mapToDTO(menuDB);
         }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE041",request);
+            return GlobalResponse.errorOccurred("AUT02FE041",request);
         }
 
         return GlobalResponse.dataFound(resMenuDTO,request);
@@ -151,12 +136,8 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
         Map<String,Object> data = null;
         try {
             switch (columnName){
-                case "name":
-                    page = menuRepo.findByNameContainsIgnoreCase(value,pageable);
-                    break;
-                case "path":
-                    page = menuRepo.findByPathContainsIgnoreCase(value, pageable);
-                    break;
+                case "name":page = menuRepo.findByNameContainsIgnoreCase(value,pageable);break;
+                case "path":page = menuRepo.findByPathContainsIgnoreCase(value, pageable);break;
                 default:page = menuRepo.findAll(pageable);
             }
             if(page.isEmpty()){
@@ -165,7 +146,7 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
             menuDTO = mapToDTO(page.getContent());
             data = tp.transformPagination(menuDTO,page,columnName,value);
         }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE051",request);
+            return GlobalResponse.errorOccurred("AUT02FE051",request);
         }
         return GlobalResponse.dataFound(menuDTO,request);
     }
@@ -175,15 +156,9 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
         List<Menu> listMenu = null;
         try {
             switch (column){
-                case "name":
-                    listMenu = menuRepo.findByNameContainsIgnoreCase(value);
-                    break;
-                case "path" : 
-                    listMenu = menuRepo.findByPathContainsIgnoreCase(value);
-                    break;
-                default:
-                    listMenu = menuRepo.findAll();
-                    break;
+                case "name":listMenu = menuRepo.findByNameContainsIgnoreCase(value);break;
+                case "path" : listMenu = menuRepo.findByPathContainsIgnoreCase(value);break;
+                default:listMenu = menuRepo.findAll();break;
             }
             if(listMenu.isEmpty()){
                 GlobalResponse.
@@ -222,9 +197,9 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
                 }
             }
             new ExcelWriter(strBody,headerArr,"sheet-1",response);
-        } catch (Exception e){
+        }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE071",request));
+                    manualResponse(response,GlobalResponse.errorOccurred("AUT02FE071",request));
             return;
         }
     }
@@ -275,7 +250,7 @@ public class MenuService implements IService<Menu>, IReport<Menu> {
             pdfGenerator.htmlToPdf(strHtml,"menu",response);
         }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT02FE081",request));
+                    manualResponse(response,GlobalResponse.errorOccurred("AUT02FE081",request));
             return;
         }
     }

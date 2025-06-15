@@ -2,24 +2,31 @@ package com.juaracoding.smartpro_rest_api.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Menu", schema = "MasterData")
-public class Menu {
+@Table(name = "AccessPermission", schema = "MasterData")
+public class AccessPermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
 
-    @Column(name = "Name", length = 70)
-    private String name;
+    @Column(name = "AllowRead", nullable = false)
+    private Boolean allowRead;
 
-    @Column(name = "Path")
-    private String path;
+    @Column(name = "AllowCreate", nullable = false)
+    private Boolean allowCreate;
+
+    @Column(name = "AllowUpdate", nullable = false)
+    private Boolean allowUpdate;
+
+    @Column(name = "AllowDelete", nullable = false)
+    private Boolean allowDelete;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -31,16 +38,18 @@ public class Menu {
     @Column(name = "UpdatedBy", insertable = false)
     private Long updatedBy;
 
-    @Column(name = "UpdatedDate", insertable = false)
+    @Column(name = "CreatedDate", insertable = false)
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    // columns with foreign key
+    // columns that are foreign key
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ParentId")
-    private Menu parent;
+    @JoinColumn(name = "MenuId", nullable = false)
+    private Menu menu;
 
-    // members
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DivisionId", nullable = false)
+    private Division division;
 
     // setters getters
     public Long getId() {
@@ -51,20 +60,36 @@ public class Menu {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Boolean getAllowRead() {
+        return allowRead;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAllowRead(Boolean allowRead) {
+        this.allowRead = allowRead;
     }
 
-    public String getPath() {
-        return path;
+    public Boolean getAllowCreate() {
+        return allowCreate;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setAllowCreate(Boolean allowCreate) {
+        this.allowCreate = allowCreate;
+    }
+
+    public Boolean getAllowUpdate() {
+        return allowUpdate;
+    }
+
+    public void setAllowUpdate(Boolean allowUpdate) {
+        this.allowUpdate = allowUpdate;
+    }
+
+    public Boolean getAllowDelete() {
+        return allowDelete;
+    }
+
+    public void setAllowDelete(Boolean allowDelete) {
+        this.allowDelete = allowDelete;
     }
 
     public Long getCreatedBy() {
@@ -99,12 +124,11 @@ public class Menu {
         this.updatedDate = updatedDate;
     }
 
-    public Menu getParent() {
-        return parent;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setParent(Menu parent) {
-        this.parent = parent;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
-
 }
