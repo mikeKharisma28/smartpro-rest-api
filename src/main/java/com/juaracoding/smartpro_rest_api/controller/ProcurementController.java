@@ -28,6 +28,7 @@ public class ProcurementController {
         return procurementService.findAll(pageable, request);
     }
 
+
     @PostMapping("/request")
     @PreAuthorize("hasAuthority('ProcurementRequest')")
     public ResponseEntity<Object> requestProcurement(
@@ -36,4 +37,21 @@ public class ProcurementController {
     ) {
         return procurementService.request(procurementService.parseToModel(procurementRequestDTO), request);
     }
+
+    @PutMapping("/{id}/approve")
+    @PreAuthorize("hasAuthority('Menu')")
+    public ResponseEntity<Object> approve(@Valid @RequestBody ProcurementRequestDTO procurementRequestDTO,
+                                          @PathVariable String id,
+                                          HttpServletRequest request){
+        return procurementService.approve(id,procurementService.parseToModel(procurementRequestDTO),request);
+    }
+
+    @PutMapping("/{id}/reject")
+    @PreAuthorize("hasAuthority('Menu')")
+    public ResponseEntity<Object> reject(@Valid @RequestBody ProcurementRequestDTO procurementRequestDTO,
+                                         @PathVariable String id,
+                                         HttpServletRequest request){
+        return procurementService.reject(id,procurementService.parseToModel(procurementRequestDTO),request);
+    }
+
 }
