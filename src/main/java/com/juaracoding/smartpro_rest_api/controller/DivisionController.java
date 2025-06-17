@@ -33,7 +33,7 @@ public class DivisionController {
 //    @PreAuthorize("hasAuthority('Division')")
     public ResponseEntity<Object> save(@Valid @RequestBody DivisionDTO divisionDTO,
                                        HttpServletRequest request){
-        return divisionService.save(divisionService.mapToDivision(divisionDTO),request);
+        return divisionService.save(divisionService.mapToDivision(divisionDTO), request);
     }
 
     @PutMapping("/{id}")
@@ -41,7 +41,7 @@ public class DivisionController {
     public ResponseEntity<Object> update(@Valid @RequestBody DivisionDTO divisionDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
-        return divisionService.update(id,divisionService.mapToDivision(divisionDTO),request);
+        return divisionService.update(id, divisionService.mapToDivision(divisionDTO), request);
     }
 
 
