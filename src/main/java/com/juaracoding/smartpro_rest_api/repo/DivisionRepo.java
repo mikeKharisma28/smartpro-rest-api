@@ -15,4 +15,6 @@ public interface DivisionRepo extends JpaRepository<Division, Long> {
     Page<Division> findByNameContainsIgnoreCase(String name, Pageable pageable);
 
     List<Division> findByNameContainsIgnoreCase(String name);
+
+    public Optional<Division> findTop1ByOrderByIdDesc();
 }
