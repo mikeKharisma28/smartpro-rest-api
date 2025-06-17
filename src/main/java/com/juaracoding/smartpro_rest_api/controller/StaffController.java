@@ -60,7 +60,7 @@ public class StaffController {
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){
-        return staffService.findById(id,request);
+        return staffService.findById(id, request);
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")

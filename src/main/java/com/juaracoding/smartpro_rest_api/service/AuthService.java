@@ -1,6 +1,5 @@
 package com.juaracoding.smartpro_rest_api.service;
 
-import com.juaracoding.smartpro_rest_api.config.JwtConfig;
 import com.juaracoding.smartpro_rest_api.dto.MenuLoginDTO;
 import com.juaracoding.smartpro_rest_api.dto.validation.LoginDTO;
 import com.juaracoding.smartpro_rest_api.handler.ResponseHandler;
@@ -8,7 +7,6 @@ import com.juaracoding.smartpro_rest_api.model.Menu;
 import com.juaracoding.smartpro_rest_api.model.Staff;
 import com.juaracoding.smartpro_rest_api.repo.StaffRepo;
 import com.juaracoding.smartpro_rest_api.security.BCryptImpl;
-import com.juaracoding.smartpro_rest_api.security.Crypto;
 import com.juaracoding.smartpro_rest_api.security.JwtUtility;
 import com.juaracoding.smartpro_rest_api.util.GlobalResponse;
 import com.juaracoding.smartpro_rest_api.util.LoggingFile;
@@ -98,7 +96,20 @@ public class AuthService implements UserDetailsService {
             MenuLoginDTO menuLoginDTO = new MenuLoginDTO();
             menuLoginDTO.setName(menu.getName());
             menuLoginDTO.setPath(menu.getPath());
-            menuLoginDTO.setParentMenuName(menu.getParent() != null ? menu.getParent().getName() : "-");
+            menuLoginDTO.setFeatherIconTag(menu.getFeatherIconTag());
+
+            if (menu.getParent() != null) {
+                menuLoginDTO.setParentMenuName(menu.getParent().getName());
+                menuLoginDTO.setParentFeatherIconTags(menu.getParent().getFeatherIconTag());
+                menuLoginDTO.setParent(false);
+                menuLoginDTO.setHasChild(false);
+            } else {
+                menuLoginDTO.setParentMenuName("-");
+                menuLoginDTO.setParentFeatherIconTags("-");
+                menuLoginDTO.setParent(true);
+                menuLoginDTO.setHasChild(!menu.getChilds().isEmpty());
+            }
+
             listMenuDto.add(menuLoginDTO);
         }
 

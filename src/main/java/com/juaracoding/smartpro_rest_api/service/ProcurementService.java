@@ -4,14 +4,10 @@ import com.juaracoding.smartpro_rest_api.core.IApproval;
 import com.juaracoding.smartpro_rest_api.core.IRequest;
 import com.juaracoding.smartpro_rest_api.dto.validation.ProcurementRequestDTO;
 import com.juaracoding.smartpro_rest_api.model.ProcurementRequest;
-import com.juaracoding.smartpro_rest_api.model.PurchaseRequest;
 import com.juaracoding.smartpro_rest_api.repo.ProcurementRequestRepo;
-import com.juaracoding.smartpro_rest_api.repo.PurchaseRequestRepo;
-import com.juaracoding.smartpro_rest_api.util.GlobalResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -66,7 +62,7 @@ public class ProcurementService implements IRequest<ProcurementRequest>, IApprov
 
     @Override
     public ResponseEntity<Object> findByNo(String no, HttpServletRequest request) {
-        return procurementRequestRepo.findById(no)
+        return procurementRequestRepo.findByProcurementNo(no)
                 .map(procurementRequest -> ResponseEntity.ok((Object) procurementRequest)) // Cast ke Object
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -78,7 +74,7 @@ public class ProcurementService implements IRequest<ProcurementRequest>, IApprov
 
     @Override
     public ResponseEntity<Object> approve(String no, ProcurementRequest procurementRequest, HttpServletRequest request) {
-        return (ResponseEntity<Object>) procurementRequestRepo.findById(no).map(data -> {
+        return (ResponseEntity<Object>) procurementRequestRepo.findByProcurementNo(no).map(data -> {
             if (data.getStatus() == 1) {
                 return ResponseEntity.badRequest().body("Request already approved");
             }
@@ -91,7 +87,7 @@ public class ProcurementService implements IRequest<ProcurementRequest>, IApprov
 
     @Override
     public ResponseEntity<Object> reject(String no, ProcurementRequest procurementRequest, HttpServletRequest request) {
-        return (ResponseEntity<Object>) procurementRequestRepo.findById(no).map(data -> {
+        return (ResponseEntity<Object>) procurementRequestRepo.findByProcurementNo(no).map(data -> {
             if (data.getStatus() == 2) {
                 return ResponseEntity.badRequest().body("Request already approved");
             }
