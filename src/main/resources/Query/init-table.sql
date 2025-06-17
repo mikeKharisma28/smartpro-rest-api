@@ -9,7 +9,7 @@ go
 
 create table MasterData.Division (Id bigint identity not null, CreatedBy bigint not null, CreatedDate datetime2(6) not null, Name varchar(70), UpdatedBy bigint, UpdatedDate datetime2(6), primary key (Id));
 go
-create table MasterData.Menu (Id bigint identity not null, CreatedBy bigint not null, CreatedDate datetime2(6) not null, Name varchar(70), Path varchar(255), UpdatedBy bigint, UpdatedDate datetime2(6), ParentId bigint, primary key (Id));
+create table MasterData.Menu (Id bigint identity not null, CreatedBy bigint not null, CreatedDate datetime2(6) not null, FeatherIconTag varchar(50), Name varchar(70), Path varchar(255), UpdatedBy bigint, UpdatedDate datetime2(6), ParentId bigint, primary key (Id));
 go
 create table MasterData.Role (Id bigint identity not null, CreatedBy bigint not null, CreatedDate datetime2(6) not null, Name varchar(70), UpdatedBy bigint, UpdatedDate datetime2(6), primary key (Id));
 go

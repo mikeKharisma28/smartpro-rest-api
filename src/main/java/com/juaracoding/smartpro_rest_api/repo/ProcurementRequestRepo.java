@@ -5,7 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+/***
+ * Author : Riyan
+ * Created date : 2025-06-16
+ * Edited by : Michael
+ * Edited date : 2025-06-16
+ */
+
 public interface ProcurementRequestRepo extends JpaRepository<ProcurementRequest, Long> {
-    Optional<ProcurementRequest> findById(String id);
+    Optional<ProcurementRequest> findByProcurementNo(String procurementNo);
     Optional<ProcurementRequest> findByStatus(Integer status);
 }

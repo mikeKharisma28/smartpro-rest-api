@@ -131,22 +131,22 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
         ResStaffDTO resStaffDTO = null;
-        try{
-            if(id == null){
+        try {
+            if (id == null) {
                 return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT04FV041", request);
 
             }
             Optional<Staff> opUser = staffRepo.findById(id);
-            if(opUser.isEmpty()){
+            if (opUser.isEmpty()) {
                 return GlobalResponse.dataNotFound("AUT04FV042",request);
             }
             Staff staffDB = opUser.get();
             resStaffDTO = mapToDTO(staffDB);
-        }catch (Exception e){
+        } catch (Exception e) {
             return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041",request);
         }
 
-        return GlobalResponse.dataFound(resStaffDTO,request);
+        return GlobalResponse.dataFound(resStaffDTO, request);
     }
 
 
@@ -293,7 +293,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     }
 
     public ResStaffDTO mapToDTO(Staff user){
-        return modelMapper.map(user,ResStaffDTO.class);
+        return modelMapper.map(user, ResStaffDTO.class);
     }
 
 }
