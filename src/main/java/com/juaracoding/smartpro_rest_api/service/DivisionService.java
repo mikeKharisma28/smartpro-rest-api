@@ -261,11 +261,11 @@ public class DivisionService implements IService<Division>, IReport<Division> {
     }
 
     public List<RepDivisionDTO> mapToDTO(List<Division> listDivision){
-        return modelMapper.map(listDivision,new TypeToken<List<RepDivisionDTO>>(){}.getType());
+        return modelMapper.map(listDivision, new TypeToken<List<RepDivisionDTO>>(){}.getType());
     }
 
     public ResDivisionDTO mapToDTO(Division division){
-        return modelMapper.map(division,ResDivisionDTO.class);
+        return modelMapper.map(division, ResDivisionDTO.class);
     }
 
 }

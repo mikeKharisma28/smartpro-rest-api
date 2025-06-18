@@ -305,7 +305,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     }
 
     public List<StaffListDTO> mapToDTO(List<Staff> listStaff){
-        return modelMapper.map(listStaff,new TypeToken<List<StaffListDTO>>(){}.getType());
+        return modelMapper.map(listStaff, new TypeToken<List<StaffListDTO>>(){}.getType());
     }
 
     public ResStaffDTO mapToDTO(Staff user){
