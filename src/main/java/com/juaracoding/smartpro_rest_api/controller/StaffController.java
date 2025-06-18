@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Author: Reynaldi
@@ -28,6 +29,13 @@ public class StaffController {
 
     @Autowired
     private StaffService staffService;
+
+    @PostMapping("/files/upload/{username}")
+    public ResponseEntity<Object> uploadImage(
+            @PathVariable String username,
+            @RequestParam MultipartFile file, HttpServletRequest request){
+        return staffService.uploadImage(username,file,request);
+    }
 
     @Qualifier("resourceHandlerMapping")
     @PostMapping("/create")

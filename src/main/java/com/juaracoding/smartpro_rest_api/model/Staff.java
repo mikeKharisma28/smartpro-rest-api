@@ -61,6 +61,16 @@ public class Staff implements UserDetails {
     private Role role;
 
     // setters getters
+
+
+    public String getPhotoProfileUrl() {
+        return photoProfileUrl;
+    }
+
+    public void setPhotoProfileUrl(String photoProfileUrl) {
+        this.photoProfileUrl = photoProfileUrl;
+    }
+
     public Long getId() {
         return id;
     }
