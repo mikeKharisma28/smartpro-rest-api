@@ -21,9 +21,31 @@ public class ResStaffDTO {
     @JsonProperty("phone-number")
     private String phoneNumber;
 
-    private RelRoleDTO role;
+    private String username;
+
+    private String password;
+
+    private String photoProfileUrl;
 
     private RelDivisionDTO division;
+
+    private RelRoleDTO role;
+
+    public String getPhotoProfileUrl() {
+        return photoProfileUrl;
+    }
+
+    public void setPhotoProfileUrl(String photoProfileUrl) {
+        this.photoProfileUrl = photoProfileUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -49,12 +71,12 @@ public class ResStaffDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public RelRoleDTO getRole() {
-        return role;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRole(RelRoleDTO role) {
-        this.role = role;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public RelDivisionDTO getDivision() {
@@ -63,5 +85,13 @@ public class ResStaffDTO {
 
     public void setDivision(RelDivisionDTO division) {
         this.division = division;
+    }
+
+    public RelRoleDTO getRole() {
+        return role;
+    }
+
+    public void setRole(RelRoleDTO role) {
+        this.role = role;
     }
 }

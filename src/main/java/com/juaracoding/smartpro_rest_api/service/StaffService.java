@@ -1,5 +1,7 @@
 package com.juaracoding.smartpro_rest_api.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.juaracoding.smartpro_rest_api.core.IReport;
 import com.juaracoding.smartpro_rest_api.core.IService;
 import com.juaracoding.smartpro_rest_api.dto.report.StaffListDTO;
@@ -25,6 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +48,12 @@ import java.util.*;
 @Service
 @Transactional
 public class StaffService implements IService<Staff>, IReport<Staff> {
+
+    @Autowired
+    private Cloudinary cloudinary;
+    public static final String BASE_URL_IMAGE = System.getProperty("user.dir")+"\\image-saved";
+    private static Path rootPath;
+
 
     @Autowired
     private StaffRepo staffRepo;
@@ -89,12 +103,14 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
                 return GlobalResponse.dataNotFound("AUT04FV013",request);
             }
             Staff staffDB = opStaff.get();
+            staffDB.setPassword(BCryptImpl.hash(staff.getUsername()+staff.getPassword()));
             staffDB.setFullName(staff.getFullName());
             staffDB.setRole(staff.getRole());
             staffDB.setUsername(staff.getUsername());
             staffDB.setPhoneNumber(staff.getPhoneNumber());
             staffDB.setDivision(staff.getDivision());
             staffDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
+            staffDB.setPhotoProfileUrl(staff.getPhotoProfileUrl());
 
         }catch (Exception e){
             return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE011",request);
@@ -295,5 +311,59 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     public ResStaffDTO mapToDTO(Staff user){
         return modelMapper.map(user, ResStaffDTO.class);
     }
+
+    public void save(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("Gagal Untuk menyimpan File kosong !!");
+            }
+            Path destinationFile = this.rootPath.resolve(Paths.get(file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            if (!destinationFile.getParent().equals(this.rootPath.toAbsolutePath())) {
+                // This is a security check
+                throw new IllegalArgumentException(
+                        "Tidak Dapat menyimpan file diluar storage yang sudah ditetapkan !!");
+            }
+            Files.createDirectories(this.rootPath);
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Failed to store file.", e);
+        }
+    }
+
+    public ResponseEntity<Object> uploadImage(String username,MultipartFile file,HttpServletRequest request){
+        Map map ;
+        Map<String,Object> mapResponse ;
+        Optional<Staff> userOptional = staffRepo.findByUsername(username);
+        if(!userOptional.isPresent()){
+            return GlobalResponse.dataFound("ERRORUPLOAD",request);
+        }
+        rootPath = Paths.get(BASE_URL_IMAGE+"/"+new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
+        String strPathz = rootPath.toAbsolutePath().toString();
+        String strPathzImage = strPathz+"\\"+file.getOriginalFilename();
+        save(file);
+
+        try {
+            map = cloudinary.uploader().upload(strPathzImage, ObjectUtils.asMap("public_id",file.getOriginalFilename()));
+            Staff staffDB = userOptional.get();
+            staffDB.setUpdatedBy(staffDB.getId());
+            staffDB.setUpdatedDate(LocalDateTime.now());
+            staffDB.setPhotoProfileUrl(map.get("secure_url").toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        Map<String,Object> m = new HashMap<>();
+        m.put("url-img",map.get("secure_url").toString());
+        return ResponseEntity.status(HttpStatus.OK).body(m);
+//        return GlobalResponse.dataResponseObject(m,request);
+    }
+
+
 
 }

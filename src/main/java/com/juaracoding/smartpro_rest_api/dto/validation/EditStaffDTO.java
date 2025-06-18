@@ -3,7 +3,6 @@ package com.juaracoding.smartpro_rest_api.dto.validation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.smartpro_rest_api.dto.relation.RelDivisionDTO;
 import com.juaracoding.smartpro_rest_api.dto.relation.RelRoleDTO;
-import com.juaracoding.smartpro_rest_api.dto.relation.SelectDivisionDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
