@@ -17,10 +17,6 @@ public class RoleDTO {
             message = "Invalid format! Only alphabets, dots and spaces are allowed, min 4 to 70 characters")
     private String name;
 
-    @NotNull(message = "Relation Cannot Be NULL")
-    @JsonProperty("list-menu")
-    private List<RelMenuDTO> listMenu;
-
     public Long getId() {
         return id;
     }
@@ -35,13 +31,5 @@ public class RoleDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<RelMenuDTO> getListMenu() {
-        return listMenu;
-    }
-
-    public void setListMenu(List<RelMenuDTO> listMenu) {
-        this.listMenu = listMenu;
     }
 }

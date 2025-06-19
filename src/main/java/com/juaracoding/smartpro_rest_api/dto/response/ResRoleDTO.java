@@ -3,6 +3,7 @@ package com.juaracoding.smartpro_rest_api.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.smartpro_rest_api.dto.relation.RelMenuDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ResRoleDTO {
@@ -11,8 +12,7 @@ public class ResRoleDTO {
 
     private String name;
 
-    @JsonProperty("list-menu")
-    private List<RelMenuDTO> listMenu;
+    private LocalDateTime updatedDate;
 
     public Long getId() {
         return id;
@@ -30,11 +30,11 @@ public class ResRoleDTO {
         this.name = name;
     }
 
-    public List<RelMenuDTO> getListMenu() {
-        return listMenu;
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setListMenu(List<RelMenuDTO> listMenu) {
-        this.listMenu = listMenu;
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

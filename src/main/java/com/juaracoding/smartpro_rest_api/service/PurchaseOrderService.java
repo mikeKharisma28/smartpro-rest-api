@@ -72,12 +72,12 @@ public class PurchaseOrderService implements IReport<PurchaseOrder> {
                 case "purchaseOrderNo":
                     listPurchaseOrder = purchaseOrderRepo.findByPurchaseOrderNoContainsIgnoreCase(value);
                     break;
-                case "status":
-                    listPurchaseOrder = purchaseOrderRepo.findByStatusContainsIgnoreCase(value);
-                    break;
-                case "unit":
-                    listPurchaseOrder = purchaseOrderRepo.findByUnitContainsIgnoreCase(value);
-                    break;
+//                case "status":
+//                    listPurchaseOrder = purchaseOrderRepo.findByStatusContainsIgnoreCase(Short.parseShort(value));
+//                    break;
+//                case "unit":
+//                    listPurchaseOrder = purchaseOrderRepo.findByUnitContainsIgnoreCase(value);
+//                    break;
                 default:
                     listPurchaseOrder = purchaseOrderRepo.findAll();
                     break;
@@ -143,12 +143,12 @@ public class PurchaseOrderService implements IReport<PurchaseOrder> {
                 case "purchaseOrderNo":
                     listPurchaseOrder = purchaseOrderRepo.findByPurchaseOrderNoContainsIgnoreCase(value);
                     break;
-                case "status":
-                    listPurchaseOrder = purchaseOrderRepo.findByStatusContainsIgnoreCase(value);
-                    break;
-                case "unit":
-                    listPurchaseOrder = purchaseOrderRepo.findByUnitContainsIgnoreCase(value);
-                    break;
+//                case "status":
+//                    listPurchaseOrder = purchaseOrderRepo.findByStatusContainsIgnoreCase(Short.parseShort(value));
+//                    break;
+//                case "unit":
+//                    listPurchaseOrder = purchaseOrderRepo.findByUnitContainsIgnoreCase(value);
+//                    break;
                 default:
                     listPurchaseOrder = purchaseOrderRepo.findAll();
                     break;
