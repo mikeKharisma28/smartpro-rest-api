@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Menu", schema = "MasterData")
@@ -20,6 +21,9 @@ public class Menu {
 
     @Column(name = "Path")
     private String path;
+
+    @Column(name = "FeatherIconTag", length = 50)
+    private String featherIconTag;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -41,6 +45,8 @@ public class Menu {
     private Menu parent;
 
     // members
+    @OneToMany(mappedBy = "parent")
+    private List<Menu> childs;
 
     // setters getters
     public Long getId() {
@@ -65,6 +71,14 @@ public class Menu {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getFeatherIconTag() {
+        return featherIconTag;
+    }
+
+    public void setFeatherIconTag(String featherIconTag) {
+        this.featherIconTag = featherIconTag;
     }
 
     public Long getCreatedBy() {
@@ -107,4 +121,11 @@ public class Menu {
         this.parent = parent;
     }
 
+    public List<Menu> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(List<Menu> childs) {
+        this.childs = childs;
+    }
 }

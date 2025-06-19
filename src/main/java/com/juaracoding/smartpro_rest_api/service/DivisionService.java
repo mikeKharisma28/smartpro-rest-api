@@ -56,74 +56,82 @@ public class DivisionService implements IService<Division>, IReport<Division> {
             }
             division.setCreatedBy(Long.parseLong(m.get("staffId").toString()));
             divisionRepo.save(division);
-        }catch (Exception e){
-            return GlobalResponse.dataFailedToSave("AUT01FE001",request);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE001",request);
         }
-        return GlobalResponse.dataSaveSuccess(request);
+        return GlobalResponse.dataCreated(request);
     }
 
     @Override
     public ResponseEntity<Object> update(Long id, Division division, HttpServletRequest request) {
         Map<String,Object> m = GlobalFunction.extractToken(request);
         try{
-            if(id == null){
-                return GlobalResponse.objectIsNull("AUT01FV011",request);
+            if(id == null) {
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT01FV011", request);
             }
-            if(division == null){
-                return GlobalResponse.objectIsNull("AUT01FV012",request);
+            if(division == null) {
+                return GlobalResponse.bodyParamRequestNull("Division object is null!", "AUT01FV012", request);
             }
             Optional<Division> opDivision = divisionRepo.findById(id);
-            if(!opDivision.isPresent()){
+            if(opDivision.isEmpty()) {
                 return GlobalResponse.dataNotFound("AUT01FV013",request);
             }
             Division divisionDB = opDivision.get();
             divisionDB.setName(division.getName());
             divisionDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
 
-        }catch (Exception e){
-            return GlobalResponse.dataFailedToChange("AUT01FE011",request);
+        }catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE011",request);
         }
         return GlobalResponse.dataUpdated(request);
     }
 
+    /***
+     * Edited by : Michael
+     * Edited date : 2025-06-16
+     * @param pageable
+     * @param request
+     * @return
+     */
+    
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
         Page<Division> page = null;
         List<Division> list = null;
         List<RepDivisionDTO> divisionDTO = null;
-        Map<String,Object> data = null;
+        Map<String, Object> data = null;
         try {
             page = divisionRepo.findAll(pageable);
-            if(page.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT01FV031",request);
+            if(page.isEmpty()) {
+                return GlobalResponse.dataNotFound("AUT01FV031", request);
             }
             divisionDTO = mapToDTO(page.getContent());
-            data = tp.transformPagination(divisionDTO,page,"id","");
-        }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT01FE031",request);
+            data = tp.transformPagination(divisionDTO, page, "id", "");
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE031", request);
         }
-        return GlobalResponse.dataFound(divisionDTO,request);
+        return GlobalResponse.dataFound(data, request);
     }
 
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
         ResDivisionDTO resDivisionDTO = null;
         try{
-            if(id==null){
-                return GlobalResponse.objectIsNull("AUT01FV041",request);
+            if(id == null){
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT01FV041", request);
 
             }
             Optional<Division> opUser = divisionRepo.findById(id);
-            if(!opUser.isPresent()){
-                return GlobalResponse.dataNotFound("AUT01FV042",request);
+            if(opUser.isEmpty()){
+                return GlobalResponse.dataNotFound("AUT01FV042", request);
             }
             Division divisionDB = opUser.get();
             resDivisionDTO = mapToDTO(divisionDB);
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT01FE041",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE041", request);
         }
 
-        return GlobalResponse.dataFound(resDivisionDTO,request);
+        return GlobalResponse.dataFound(resDivisionDTO, request);
     }
 
 
@@ -143,7 +151,7 @@ public class DivisionService implements IService<Division>, IReport<Division> {
             divisionDTO = mapToDTO(page.getContent());
             data = tp.transformPagination(divisionDTO,page,columnName,value);
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT01FE051",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE051",request);
         }
         return GlobalResponse.dataFound(divisionDTO,request);
     }
@@ -157,8 +165,7 @@ public class DivisionService implements IService<Division>, IReport<Division> {
                 default:listDivision = divisionRepo.findAll();break;
             }
             if(listDivision.isEmpty()){
-                GlobalResponse.
-                        manualResponse(response,GlobalResponse.dataNotFound("AUT01FV071",request));
+                GlobalResponse.manualResponse(response, GlobalResponse.dataNotFound("AUT01FV071", request));
                 return;
             }
             List<RepDivisionDTO> divisionDTO = mapToDTO(listDivision);
@@ -194,8 +201,7 @@ public class DivisionService implements IService<Division>, IReport<Division> {
             }
             new ExcelWriter(strBody,headerArr,"sheet-1",response);
         }catch (Exception e){
-            GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT01FE071",request));
+            GlobalResponse.manualResponse(response, GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE071", request));
             return;
         }
     }
@@ -209,8 +215,7 @@ public class DivisionService implements IService<Division>, IReport<Division> {
                 default:listDivision = divisionRepo.findAll();break;
             }
             if(listDivision.isEmpty()){
-                GlobalResponse.
-                        manualResponse(response,GlobalResponse.dataNotFound("AUT01FV081",request));
+                GlobalResponse.manualResponse(response, GlobalResponse.dataNotFound("AUT01FV081", request));
                 return;
             }
             List<RepDivisionDTO> divisionDTO = mapToDTO(listDivision);
@@ -244,8 +249,7 @@ public class DivisionService implements IService<Division>, IReport<Division> {
             strHtml = springTemplateEngine.process("global-report",context);
             pdfGenerator.htmlToPdf(strHtml,"division",response);
         }catch (Exception e){
-            GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT01FE081",request));
+            GlobalResponse.manualResponse(response, GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT01FE081", request));
             return;
         }
     }
@@ -257,11 +261,11 @@ public class DivisionService implements IService<Division>, IReport<Division> {
     }
 
     public List<RepDivisionDTO> mapToDTO(List<Division> listDivision){
-        return modelMapper.map(listDivision,new TypeToken<List<RepDivisionDTO>>(){}.getType());
+        return modelMapper.map(listDivision, new TypeToken<List<RepDivisionDTO>>(){}.getType());
     }
 
     public ResDivisionDTO mapToDTO(Division division){
-        return modelMapper.map(division,ResDivisionDTO.class);
+        return modelMapper.map(division, ResDivisionDTO.class);
     }
 
 }

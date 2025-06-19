@@ -14,6 +14,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
 
 @RestController
 @RequestMapping("staff")
@@ -22,16 +30,23 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
+    @PostMapping("/files/upload/{username}")
+    public ResponseEntity<Object> uploadImage(
+            @PathVariable String username,
+            @RequestParam MultipartFile file, HttpServletRequest request){
+        return staffService.uploadImage(username,file,request);
+    }
+
     @Qualifier("resourceHandlerMapping")
-    @PostMapping
-    @PreAuthorize("hasAuthority('Staff')")
+    @PostMapping("/create")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> save(@Valid @RequestBody EditStaffDTO editStaffDTO,
                                        HttpServletRequest request){
         return staffService.save(staffService.mapToUser(editStaffDTO),request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> update(@Valid @RequestBody EditStaffDTO editStaffDTO,
                                          @PathVariable Long id,
                                          HttpServletRequest request){
@@ -42,22 +57,22 @@ public class StaffController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return staffService.findAll(pageable,request);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
             HttpServletRequest request){
-        return staffService.findById(id,request);
+        return staffService.findById(id, request);
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -76,7 +91,7 @@ public class StaffController {
     }
 
     @GetMapping("/download-excel")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public void downloadExcel(@RequestParam String column,
                               @RequestParam String value,
                               HttpServletRequest request,
@@ -85,7 +100,7 @@ public class StaffController {
     }
 
     @GetMapping("/download-pdf")
-    @PreAuthorize("hasAuthority('Staff')")
+//    @PreAuthorize("hasAuthority('Staff')")
     public void downloadPdf(@RequestParam String column,
                             @RequestParam String value,
                             HttpServletRequest request,

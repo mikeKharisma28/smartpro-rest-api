@@ -8,8 +8,8 @@ public class DivisionDTO {
     @NotNull
     private Long id;
 
-    @Pattern(regexp = "^([a-zA-Z0-9\\.]{8,16})$",
-            message = "Invalid format! Allowed format: Uppercase & lowercase letters, numbers and dots only, length allowed 8-16 characters, for example: Michael.Laksa123")
+    @Pattern(regexp = "^[a-zA-Z\\s\\.]{4,70}$",
+            message = "Invalid format! Only alphabets, dots and spaces are allowed, min 4 to 70 characters")
     private String name;
 
     public Long getId() {

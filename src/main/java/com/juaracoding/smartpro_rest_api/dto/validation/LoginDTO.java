@@ -24,6 +24,10 @@ public class LoginDTO {
             message = "Minimum format allowed: 1 number, 1 lowercase letter, 1 uppercase letter, 1 special characters (_ \"Underscore\", - \"Hyphen\", # \"Hash\", or $ \"Dollar\" or @ \"At\"). Password length allowed 9-16 characters alphanumeric combinations, example: P@ssw0rd123")
     private String password;
 
+    private String captcha;
+    private String hiddenCaptcha;
+    private String realCaptcha;
+
     public String getUsername() {
         return username;
     }
@@ -40,4 +44,27 @@ public class LoginDTO {
         this.password = password;
     }
 
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
+
+    public String getHiddenCaptcha() {
+        return hiddenCaptcha;
+    }
+
+    public void setHiddenCaptcha(String hiddenCaptcha) {
+        this.hiddenCaptcha = hiddenCaptcha;
+    }
+
+    public String getRealCaptcha() {
+        return realCaptcha;
+    }
+
+    public void setRealCaptcha(String realCaptcha) {
+        this.realCaptcha = realCaptcha;
+    }
 }

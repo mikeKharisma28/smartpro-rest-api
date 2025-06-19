@@ -1,5 +1,7 @@
 package com.juaracoding.smartpro_rest_api.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.juaracoding.smartpro_rest_api.core.IReport;
 import com.juaracoding.smartpro_rest_api.core.IService;
 import com.juaracoding.smartpro_rest_api.dto.report.StaffListDTO;
@@ -25,14 +27,33 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Author: Reynaldi
+ * Created date: 2025-06-11
+ * Edited by: Michael
+ * Edited date: 2025-06-14
+ */
+
 @Service
 @Transactional
 public class StaffService implements IService<Staff>, IReport<Staff> {
+
+    @Autowired
+    private Cloudinary cloudinary;
+    public static final String BASE_URL_IMAGE = System.getProperty("user.dir")+"\\image-saved";
+    private static Path rootPath;
+
 
     @Autowired
     private StaffRepo staffRepo;
@@ -62,9 +83,9 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             staff.setCreatedBy(Long.parseLong(m.get("staffId").toString()));
             staffRepo.save(staff);
         }catch (Exception e){
-            return GlobalResponse.dataFailedToSave("AUT04FE001",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE001",request);
         }
-        return GlobalResponse.dataSaveSuccess(request);
+        return GlobalResponse.dataCreated(request);
     }
 
     @Override
@@ -72,29 +93,38 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         Map<String,Object> m = GlobalFunction.extractToken(request);
         try{
             if(id == null){
-                return GlobalResponse.objectIsNull("AUT04FV011",request);
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT04FV011", request);
             }
             if(staff == null){
-                return GlobalResponse.objectIsNull("AUT04FV012",request);
+                return GlobalResponse.bodyParamRequestNull("Staff object is null!", "AUT04FV012", request);
             }
             Optional<Staff> opStaff = staffRepo.findById(id);
-            if(!opStaff.isPresent()){
+            if(opStaff.isEmpty()){
                 return GlobalResponse.dataNotFound("AUT04FV013",request);
             }
             Staff staffDB = opStaff.get();
+            staffDB.setPassword(BCryptImpl.hash(staff.getUsername()+staff.getPassword()));
             staffDB.setFullName(staff.getFullName());
             staffDB.setRole(staff.getRole());
             staffDB.setUsername(staff.getUsername());
             staffDB.setPhoneNumber(staff.getPhoneNumber());
             staffDB.setDivision(staff.getDivision());
             staffDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
+            staffDB.setPhotoProfileUrl(staff.getPhotoProfileUrl());
 
         }catch (Exception e){
-            return GlobalResponse.dataFailedToChange("AUT04FE011",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE011",request);
         }
         return GlobalResponse.dataUpdated(request);
     }
 
+    /***
+     * Edited by : Michael
+     * Edited date : 2025-06-16
+     * @param pageable
+     * @param request
+     * @return
+     */
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
         Page<Staff> page = null;
@@ -103,36 +133,36 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         Map<String,Object> data = null;
         try {
             page = staffRepo.findAll(pageable);
-            if(page.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT04FV031",request);
+            if(page.isEmpty()) {
+                return GlobalResponse.dataNotFound("AUT04FV031", request);
             }
             listDTO = mapToDTO(page.getContent());
-            data = tp.transformPagination(listDTO,page,"id","");
-        }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT04FE031",request);
+            data = tp.transformPagination(listDTO, page, "id", "");
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE031", request);
         }
-        return GlobalResponse.dataFound(listDTO,request);
+        return GlobalResponse.dataFound(data, request);
     }
 
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
         ResStaffDTO resStaffDTO = null;
-        try{
-            if(id==null){
-                return GlobalResponse.objectIsNull("AUT04FV041",request);
+        try {
+            if (id == null) {
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT04FV041", request);
 
             }
             Optional<Staff> opUser = staffRepo.findById(id);
-            if(!opUser.isPresent()){
+            if (opUser.isEmpty()) {
                 return GlobalResponse.dataNotFound("AUT04FV042",request);
             }
             Staff staffDB = opUser.get();
             resStaffDTO = mapToDTO(staffDB);
-        }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT04FE041",request);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041",request);
         }
 
-        return GlobalResponse.dataFound(resStaffDTO,request);
+        return GlobalResponse.dataFound(resStaffDTO, request);
     }
 
 
@@ -155,7 +185,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             listDTO = mapToDTO(page.getContent());
             data = tp.transformPagination(listDTO,page,columnName,value);
         }catch (Exception e){
-            return GlobalResponse.errorOccurred("AUT04FE051",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE051",request);
         }
         return GlobalResponse.dataFound(listDTO,request);
     }
@@ -210,7 +240,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             new ExcelWriter(strBody,headerArr,"sheet-1",response);
         }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT04FE071",request));
+                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE071",request));
             return;
         }
     }
@@ -263,7 +293,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             pdfGenerator.htmlToPdf(strHtml,"staff",response);
         }catch (Exception e){
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.errorOccurred("AUT04FE081",request));
+                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE081",request));
             return;
         }
     }
@@ -275,11 +305,65 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     }
 
     public List<StaffListDTO> mapToDTO(List<Staff> listStaff){
-        return modelMapper.map(listStaff,new TypeToken<List<StaffListDTO>>(){}.getType());
+        return modelMapper.map(listStaff, new TypeToken<List<StaffListDTO>>(){}.getType());
     }
 
     public ResStaffDTO mapToDTO(Staff user){
-        return modelMapper.map(user,ResStaffDTO.class);
+        return modelMapper.map(user, ResStaffDTO.class);
     }
+
+    public void save(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("Gagal Untuk menyimpan File kosong !!");
+            }
+            Path destinationFile = this.rootPath.resolve(Paths.get(file.getOriginalFilename()))
+                    .normalize().toAbsolutePath();
+            if (!destinationFile.getParent().equals(this.rootPath.toAbsolutePath())) {
+                // This is a security check
+                throw new IllegalArgumentException(
+                        "Tidak Dapat menyimpan file diluar storage yang sudah ditetapkan !!");
+            }
+            Files.createDirectories(this.rootPath);
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Failed to store file.", e);
+        }
+    }
+
+    public ResponseEntity<Object> uploadImage(String username,MultipartFile file,HttpServletRequest request){
+        Map map ;
+        Map<String,Object> mapResponse ;
+        Optional<Staff> userOptional = staffRepo.findByUsername(username);
+        if(!userOptional.isPresent()){
+            return GlobalResponse.dataFound("ERRORUPLOAD",request);
+        }
+        rootPath = Paths.get(BASE_URL_IMAGE+"/"+new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
+        String strPathz = rootPath.toAbsolutePath().toString();
+        String strPathzImage = strPathz+"\\"+file.getOriginalFilename();
+        save(file);
+
+        try {
+            map = cloudinary.uploader().upload(strPathzImage, ObjectUtils.asMap("public_id",file.getOriginalFilename()));
+            Staff staffDB = userOptional.get();
+            staffDB.setUpdatedBy(staffDB.getId());
+            staffDB.setUpdatedDate(LocalDateTime.now());
+            staffDB.setPhotoProfileUrl(map.get("secure_url").toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        Map<String,Object> m = new HashMap<>();
+        m.put("url-img",map.get("secure_url").toString());
+        return ResponseEntity.status(HttpStatus.OK).body(m);
+//        return GlobalResponse.dataResponseObject(m,request);
+    }
+
+
 
 }

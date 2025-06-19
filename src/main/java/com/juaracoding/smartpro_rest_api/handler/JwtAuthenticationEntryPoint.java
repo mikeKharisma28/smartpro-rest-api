@@ -32,11 +32,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         /** Response Code */
         String message = status == 401 ? "Authentication failed!" : "Authorization failed!";
-        response.setStatus(status);
+//        response.setStatus(status);
 
         /** Response Body */
         Map<String,Object> data = new HashMap<>();
-        data.put("status", status);
+        data.put("status", response.getStatus());
         data.put("success", false);
         data.put("timestamp", Calendar.getInstance().getTime());
         data.put("error", message);

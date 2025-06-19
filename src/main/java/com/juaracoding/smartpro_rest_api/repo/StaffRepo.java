@@ -21,4 +21,6 @@ public interface StaffRepo extends JpaRepository<Staff, Long> {
     List<Staff> findByFullNameContainsIgnoreCase(String fullName);
     List<Staff> findByPhoneNumberContainsIgnoreCase(String phoneNumber);
     List<Staff> findByUsernameContainsIgnoreCase(String username);
+
+    public Optional<Staff> findTop1ByOrderByIdDesc();
 }

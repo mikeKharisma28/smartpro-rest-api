@@ -2,6 +2,7 @@ package com.juaracoding.smartpro_rest_api.util;
 
 import com.github.javafaker.Faker;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -91,5 +92,34 @@ public class DataGenerator {
 
     public String dataDescription(Integer numOfChars) {
         return faker.lorem().characters(numOfChars);
+    }
+
+    public String dataProcurement() {
+        isValid = false;
+        intLoop = 0;
+        String procurement = "";
+        while (!isValid) {
+            try {
+                procurement = faker.name().username();
+                matcher = Pattern.compile("^([a-z0-9\\.]{8,16})$").matcher(generateNo("PRC"));
+                matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Reached 250 times and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+
+        return procurement;
+    }
+
+    private String generateNo(String prefix) {
+        Random random = new Random();
+        Long number = random.nextLong(1000000000, 9999999999L);
+        String year = String.valueOf(Year.now().getValue()).substring(2);
+        return String.format("%s-%s%s", prefix, year, number.toString());
     }
 }
