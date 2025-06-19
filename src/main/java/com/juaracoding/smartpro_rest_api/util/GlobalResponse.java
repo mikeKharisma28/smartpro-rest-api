@@ -86,4 +86,8 @@ public class GlobalResponse {
     public static ResponseEntity<Object> bodyParamRequestNull(String message, String errorCode, HttpServletRequest request) {
         return new ResponseHandler().handleResponse(message, HttpStatus.BAD_REQUEST, null, null, request);
     }
+
+    public static ResponseEntity<Object> terjadiKesalahan(String error, HttpServletRequest request) {
+        return null;
+    }
 }
