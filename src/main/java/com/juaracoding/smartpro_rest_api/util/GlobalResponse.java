@@ -74,4 +74,8 @@ public class GlobalResponse {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);
     }
+
+    public static ResponseEntity<Object> terjadiKesalahan(String error, HttpServletRequest request) {
+        return null;
+    }
 }

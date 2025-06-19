@@ -147,6 +147,23 @@
 			<version>1.0.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>7.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -159,5 +176,10 @@
 		</plugins>
 		<finalName>smartpro-api</finalName>
 	</build>
-
+	<repositories>
+		<repository>
+			<id>itext-repo</id>
+			<url>https://repo.itextpdf.com/artifactory/itext/</url>
+		</repository>
+	</repositories>
 </project>
