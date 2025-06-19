@@ -11,7 +11,7 @@ import com.juaracoding.smartpro_rest_api.dto.relation.RelRoleDTO;
  * Edited date : 2025-06-17
  */
 
-public class ResStaffDTO {
+public class ResStaffProfileDTO {
 
     private Long id;
 
@@ -25,9 +25,19 @@ public class ResStaffDTO {
 
     private String password;
 
+    private String photoProfileUrl;
+
     private RelDivisionDTO division;
 
     private RelRoleDTO role;
+
+    public String getPhotoProfileUrl() {
+        return photoProfileUrl;
+    }
+
+    public void setPhotoProfileUrl(String photoProfileUrl) {
+        this.photoProfileUrl = photoProfileUrl;
+    }
 
     public String getPassword() {
         return password;

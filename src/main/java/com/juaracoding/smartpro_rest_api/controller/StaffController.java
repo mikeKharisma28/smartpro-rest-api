@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +36,6 @@ public class StaffController {
         return staffService.uploadImage(username,file,request);
     }
 
-    @Qualifier("resourceHandlerMapping")
     @PostMapping("/create")
 //    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> save(@Valid @RequestBody EditStaffDTO editStaffDTO,
@@ -67,8 +65,14 @@ public class StaffController {
 //    @PreAuthorize("hasAuthority('Staff')")
     public ResponseEntity<Object> findById(
             @PathVariable Long id,
+            @RequestParam Boolean editProfile,
             HttpServletRequest request){
-        return staffService.findById(id, request);
+        if (editProfile) {
+            return staffService.findProfileById(id, request);
+        }
+        else {
+            return staffService.findById(id, request);
+        }
     }
 
     @GetMapping("/{sort}/{sort-by}/{page}")

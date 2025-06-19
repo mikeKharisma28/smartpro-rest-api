@@ -22,7 +22,7 @@ public class ProcurementController {
     private ProcurementService procurementService;
 
     @GetMapping("/request")
-    @PreAuthorize("hasAuthority('ProcurementRequest')")
+//    @PreAuthorize("hasAuthority('ProcurementRequest')")
     public ResponseEntity<Object> requestList(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return procurementService.findAll(pageable, request);
@@ -30,7 +30,7 @@ public class ProcurementController {
 
 
     @PostMapping("/request")
-    @PreAuthorize("hasAuthority('ProcurementRequest')")
+//    @PreAuthorize("hasAuthority('ProcurementRequest')")
     public ResponseEntity<Object> requestProcurement(
             @Valid @RequestBody ProcurementRequestDTO procurementRequestDTO,
             HttpServletRequest request
@@ -39,7 +39,7 @@ public class ProcurementController {
     }
 
     @PutMapping("/{id}/approve")
-    @PreAuthorize("hasAuthority('Menu')")
+//    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> approve(@Valid @RequestBody ProcurementRequestDTO procurementRequestDTO,
                                           @PathVariable String id,
                                           HttpServletRequest request){
@@ -47,7 +47,7 @@ public class ProcurementController {
     }
 
     @PutMapping("/{id}/reject")
-    @PreAuthorize("hasAuthority('Menu')")
+//    @PreAuthorize("hasAuthority('Menu')")
     public ResponseEntity<Object> reject(@Valid @RequestBody ProcurementRequestDTO procurementRequestDTO,
                                          @PathVariable String id,
                                          HttpServletRequest request){

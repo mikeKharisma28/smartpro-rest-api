@@ -1,6 +1,5 @@
 package com.juaracoding.smartpro_rest_api.dto.validation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.smartpro_rest_api.dto.relation.RelDivisionDTO;
 import com.juaracoding.smartpro_rest_api.dto.relation.RelRoleDTO;
 import jakarta.validation.constraints.NotNull;
@@ -9,12 +8,10 @@ import jakarta.validation.constraints.Pattern;
 public class EditStaffDTO {
     @Pattern(regexp = "^[a-zA-Z\\s]{4,70}$",
             message = "Invalid format! Only alphabets and spaces are allowed, min 4 to 70 characters")
-    @JsonProperty("full-name")
     private String fullName;
 
     @Pattern(regexp = "^(62|\\+62|0)8[0-9]{9,13}$",
             message = "Invalid phone number format! Allowed format: min 9 max 13 digits after number 8, for example: (0/62/+62)81111111")
-    @JsonProperty("phone-number")
     private String phoneNumber;
 
     @Pattern(regexp = "^([a-z0-9\\.]{8,16})$",

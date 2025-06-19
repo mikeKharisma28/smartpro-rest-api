@@ -6,6 +6,7 @@ import com.juaracoding.smartpro_rest_api.core.IReport;
 import com.juaracoding.smartpro_rest_api.core.IService;
 import com.juaracoding.smartpro_rest_api.dto.report.StaffListDTO;
 import com.juaracoding.smartpro_rest_api.dto.response.ResStaffDTO;
+import com.juaracoding.smartpro_rest_api.dto.response.ResStaffProfileDTO;
 import com.juaracoding.smartpro_rest_api.dto.validation.EditStaffDTO;
 import com.juaracoding.smartpro_rest_api.handler.ResponseHandler;
 import com.juaracoding.smartpro_rest_api.model.Staff;
@@ -34,7 +35,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -165,6 +165,25 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         return GlobalResponse.dataFound(resStaffDTO, request);
     }
 
+    public ResponseEntity<Object> findProfileById(Long id, HttpServletRequest request) {
+        ResStaffProfileDTO resStaffProfileDTO = null;
+        try {
+            if (id == null) {
+                return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT04FV041", request);
+
+            }
+            Optional<Staff> opUser = staffRepo.findById(id);
+            if (opUser.isEmpty()) {
+                return GlobalResponse.dataNotFound("AUT04FV042",request);
+            }
+            Staff staffDB = opUser.get();
+            resStaffProfileDTO = mapToProfileDTO(staffDB);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041",request);
+        }
+
+        return GlobalResponse.dataFound(resStaffProfileDTO, request);
+    }
 
     @Override
     public ResponseEntity<Object> findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) {
@@ -312,6 +331,10 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         return modelMapper.map(user, ResStaffDTO.class);
     }
 
+    public ResStaffProfileDTO mapToProfileDTO(Staff user){
+        return modelMapper.map(user, ResStaffProfileDTO.class);
+    }
+
     public void save(MultipartFile file) {
         try {
             if (file.isEmpty()) {
@@ -336,20 +359,20 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         }
     }
 
-    public ResponseEntity<Object> uploadImage(String username,MultipartFile file,HttpServletRequest request){
+    public ResponseEntity<Object> uploadImage(String username, MultipartFile file, HttpServletRequest request){
         Map map ;
         Map<String,Object> mapResponse ;
         Optional<Staff> userOptional = staffRepo.findByUsername(username);
-        if(!userOptional.isPresent()){
-            return GlobalResponse.dataFound("ERRORUPLOAD",request);
+        if (userOptional.isEmpty()) {
+            return GlobalResponse.dataNotFound("",request);
         }
-        rootPath = Paths.get(BASE_URL_IMAGE+"/"+new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
-        String strPathz = rootPath.toAbsolutePath().toString();
-        String strPathzImage = strPathz+"\\"+file.getOriginalFilename();
+        rootPath = Paths.get(BASE_URL_IMAGE+"/" + new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
+        String strPath = rootPath.toAbsolutePath().toString();
+        String strPathImage = strPath+"\\"+file.getOriginalFilename();
         save(file);
 
         try {
-            map = cloudinary.uploader().upload(strPathzImage, ObjectUtils.asMap("public_id",file.getOriginalFilename()));
+            map = cloudinary.uploader().upload(strPathImage, ObjectUtils.asMap("public_id", file.getOriginalFilename()));
             Staff staffDB = userOptional.get();
             staffDB.setUpdatedBy(staffDB.getId());
             staffDB.setUpdatedDate(LocalDateTime.now());
@@ -358,8 +381,8 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
-        Map<String,Object> m = new HashMap<>();
-        m.put("url-img",map.get("secure_url").toString());
+        Map<String, Object> m = new HashMap<>();
+        m.put("url-img", map.get("secure_url").toString());
         return ResponseEntity.status(HttpStatus.OK).body(m);
 //        return GlobalResponse.dataResponseObject(m,request);
     }

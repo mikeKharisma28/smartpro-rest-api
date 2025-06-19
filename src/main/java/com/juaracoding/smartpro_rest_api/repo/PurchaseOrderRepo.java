@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, String> {
-    // Menggunakan findById untuk mencari PurchaseOrder berdasarkan nomor
+    // Menggunakan findProfileById untuk mencari PurchaseOrder berdasarkan nomor
     Optional<PurchaseOrder> findById(String id);
 
     List<PurchaseOrder> findByPurchaseOrderNoContainsIgnoreCase(String value);
