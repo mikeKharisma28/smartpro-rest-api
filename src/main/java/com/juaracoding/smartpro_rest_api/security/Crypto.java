@@ -50,4 +50,12 @@ public class Crypto {
             return "Error while decrypting!";
         }
     }
+
+//    public static void main(String[] args) {
+//        performEncrypt("sa");
+//        performEncrypt("sa1");
+//
+//        System.out.println(performEncrypt("sa"));
+//        System.out.println(performEncrypt("sa1"));
+//    }
 }
