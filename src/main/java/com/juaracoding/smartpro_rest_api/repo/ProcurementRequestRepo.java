@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ProcurementRequestRepo extends JpaRepository<ProcurementRequest, Long> {
-    Optional<ProcurementRequest> findById(String id);
+public interface ProcurementRequestRepo extends JpaRepository<ProcurementRequest, String> {
+    Optional<ProcurementRequest> findById(String procurementNo);
     Optional<ProcurementRequest> findByStatus(Integer status);
 }

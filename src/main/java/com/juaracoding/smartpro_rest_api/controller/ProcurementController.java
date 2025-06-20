@@ -24,7 +24,7 @@ public class ProcurementController {
     @GetMapping("/request")
     @PreAuthorize("hasAuthority('ProcurementRequest')")
     public ResponseEntity<Object> requestList(HttpServletRequest request) {
-        Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
+        Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("procurementNo"));
         return procurementService.findAll(pageable, request);
     }
 
