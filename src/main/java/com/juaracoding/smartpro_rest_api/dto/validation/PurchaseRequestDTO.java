@@ -2,11 +2,17 @@ package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class PurchaseRequestDTO {
+
+    @NotNull(message = "Purchase Request Number cannot be null")
+    @Size(max = 15, message = "Purchase Request Number cannot exceed 15 characters")
+    private String purchaseRequestNo;
 
 //    @Pattern(regexp = "^(10000(\\.\\d+)?|[1-9]\\d{4,7}(\\.\\d+)?)$\n", message = "Only numeric are allowed, range of 10000 to 100000000")
     @Range(min = 10000, max = 100000000, message = "Only numeric are allowed, range of 10000 to 100000000")
@@ -28,8 +34,29 @@ public class PurchaseRequestDTO {
 //    @Pattern(regexp = "^[0-3]{1}$", message = "Only numeric are allowed, range of 0 to 3")
     @Range(max = 3, message = "Only numeric are allowed, range of 0 to 3")
     private Integer status;
-  
+
+    @NotNull(message = "Created By cannot be null")
+    private Long createdBy;
+
+    @NotNull(message = "Created Date cannot be null")
+    private LocalDateTime createdDate;
+
+    private Long updatedBy;
+
+    private LocalDateTime updatedDate;
+
+    @NotNull(message = "Procurement Request cannot be null")
+    private Long procurementRequestNo;
+
     // setters getters
+    public String getPurchaseRequestNo() {
+        return purchaseRequestNo;
+    }
+
+    public void setPurchaseRequestNo(String purchaseRequestNo) {
+        this.purchaseRequestNo = purchaseRequestNo;
+    }
+
     public BigDecimal getEstimatedPrice() {
         return estimatedPrice;
     }
@@ -76,5 +103,46 @@ public class PurchaseRequestDTO {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Long getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public Long getProcurementRequestNo() {
+        return procurementRequestNo;
+    }
+
+    public void setProcurementRequestNo(Long procurementRequestNo) {
+        this.procurementRequestNo = procurementRequestNo;
     }
 }

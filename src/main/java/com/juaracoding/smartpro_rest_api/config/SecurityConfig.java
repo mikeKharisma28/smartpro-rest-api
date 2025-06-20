@@ -50,7 +50,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll().anyRequest().authenticated()).
-                httpBasic(basic -> basic.authenticationEntryPoint(authenticationEntryPoint)).
+//                httpBasic(basic -> basic.authenticationEntryPoint(authenticationEntryPoint)).
                 exceptionHandling(Customizer.withDefaults()).
                 sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
                 authenticationProvider(authenticationProvider()).
