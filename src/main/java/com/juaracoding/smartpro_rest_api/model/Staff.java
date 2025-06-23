@@ -13,6 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Last updated date: 2025-06-19
+ */
+
 @Entity
 @Table(name = "Staff", schema = "MasterData")
 public class Staff implements UserDetails {

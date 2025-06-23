@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * Author: Reynaldi
- * Created date: 2025-06-11
- * Edited by: Michael
- * Edited date: 2025-06-14
+ * Author: Reynaldi, 2025-06-11
+ * Edited by: Michael, 2025-06-14
  */
 
 @RestController

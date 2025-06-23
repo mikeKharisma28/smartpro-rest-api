@@ -8,6 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Edited by: Reynaldi, 2025-06-17
+ */
+
 public interface MenuRepo extends JpaRepository<Menu, Long> {
     Optional<Menu> findById(Long id);
     Optional<Menu> findByName(String name);

@@ -2,6 +2,11 @@ package com.juaracoding.smartpro_rest_api.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Last updated date: 2025-06-17
+ */
+
 public class MenuLoginDTO {
     private String name;
 

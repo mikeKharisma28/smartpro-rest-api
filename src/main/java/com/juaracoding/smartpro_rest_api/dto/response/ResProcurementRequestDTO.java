@@ -2,7 +2,7 @@ package com.juaracoding.smartpro_rest_api.dto.response;
 
 import java.time.LocalDate;
 
-public class ApvProcurementDetailDTO {
+public class ResProcurementRequestDTO {
     private String procurementNo;
 
     private String itemName;
@@ -15,7 +15,7 @@ public class ApvProcurementDetailDTO {
 
     private LocalDate expectedDate;
 
-    private Integer status;
+    private Short status;
 
     public String getProcurementNo() {
         return procurementNo;
@@ -65,11 +65,11 @@ public class ApvProcurementDetailDTO {
         this.expectedDate = expectedDate;
     }
 
-    public Integer getStatus() {
+    public Short getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Short status) {
         this.status = status;
     }
 }

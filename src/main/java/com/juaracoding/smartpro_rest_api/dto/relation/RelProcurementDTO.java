@@ -1,31 +1,23 @@
-package com.juaracoding.smartpro_rest_api.dto.report;
+package com.juaracoding.smartpro_rest_api.dto.relation;
 
 import java.time.LocalDate;
 
-public class PurchaseReqListDTO {
-
-    private String purchaseRequestNo;
-
+public class RelProcurementDTO {
     private String procurementNo;
 
     private String itemName;
 
     private String itemDescription;
 
-    private Integer estimatedQuantity;
+    private Integer requestedQuantity;
 
     private String unit;
 
-    private Integer status;
+    private LocalDate expectedDate;
 
-    public String getPurchaseRequestNo() {
-        return purchaseRequestNo;
-    }
 
-    public void setPurchaseRequestNo(String purchaseRequestNo) {
-        this.purchaseRequestNo = purchaseRequestNo;
-    }
 
+    // setter getter
     public String getProcurementNo() {
         return procurementNo;
     }
@@ -50,12 +42,12 @@ public class PurchaseReqListDTO {
         this.itemDescription = itemDescription;
     }
 
-    public Integer getEstimatedQuantity() {
-        return estimatedQuantity;
+    public Integer getRequestedQuantity() {
+        return requestedQuantity;
     }
 
-    public void setEstimatedQuantity(Integer estimatedQuantity) {
-        this.estimatedQuantity = estimatedQuantity;
+    public void setRequestedQuantity(Integer requestedQuantity) {
+        this.requestedQuantity = requestedQuantity;
     }
 
     public String getUnit() {
@@ -66,11 +58,11 @@ public class PurchaseReqListDTO {
         this.unit = unit;
     }
 
-    public Integer getStatus() {
-        return status;
+    public LocalDate getExpectedDate() {
+        return expectedDate;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setExpectedDate(LocalDate expectedDate) {
+        this.expectedDate = expectedDate;
     }
 }

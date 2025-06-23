@@ -1,19 +1,19 @@
 package com.juaracoding.smartpro_rest_api.dto.report;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+/***
+ * Author: Michael, 2025-05-20
+ * Last edited by: Reynaldi, 2025-05-28
+ * Added:
+ * - Getters and Setters
+ * - Class renamed
+ */
 
-public class StaffListDTO {
+public class RepStaffDTO {
 
     private Long id;
 
-    @JsonProperty("full-name")
     private String fullName;
 
-    @JsonProperty("phone-number")
     private String phoneNumber;
 
     private String username;

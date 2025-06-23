@@ -7,6 +7,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Edited by: Alfin, 2025-06-09
+ */
+
 @Entity
 @Table(name = "PurchaseOrder", schema = "TransactionData")
 public class PurchaseOrder {

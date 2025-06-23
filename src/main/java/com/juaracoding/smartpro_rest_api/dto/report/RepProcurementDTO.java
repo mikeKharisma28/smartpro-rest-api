@@ -1,8 +1,17 @@
-package com.juaracoding.smartpro_rest_api.dto.relation;
+package com.juaracoding.smartpro_rest_api.dto.report;
 
 import java.time.LocalDate;
 
-public class ApprovedProcurementDTO {
+/***
+ * Author: Michael, 2025-05-20
+ * Last edited by: Reynaldi, 2025-05-28
+ * Added:
+ * - Getters and Setters
+ * - Class renamed
+ */
+
+public class RepProcurementDTO {
+
     private String procurementNo;
 
     private String itemName;
@@ -15,7 +24,8 @@ public class ApprovedProcurementDTO {
 
     private LocalDate expectedDate;
 
-    // setter getter
+    private Short status;
+
     public String getProcurementNo() {
         return procurementNo;
     }
@@ -62,5 +72,13 @@ public class ApprovedProcurementDTO {
 
     public void setExpectedDate(LocalDate expectedDate) {
         this.expectedDate = expectedDate;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
     }
 }

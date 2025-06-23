@@ -6,6 +6,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Last updated date: 2025-05-20
+ */
+
 @Entity
 @Table(name = "ApprovalTracking", schema = "TransactionData")
 public class ApprovalTracking {

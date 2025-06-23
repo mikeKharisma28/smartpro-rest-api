@@ -14,6 +14,13 @@ import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 
+/***
+ * Author: Michael, 2025-05-19
+ * Last updated date: 2025-06-01
+ * Bug fixed:
+ * Jackson LocalDateTime Serialization Issues
+ */
+
 @Configuration
 public class MainConfig {
 

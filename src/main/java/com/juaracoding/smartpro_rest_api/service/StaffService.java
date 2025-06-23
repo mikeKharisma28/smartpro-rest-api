@@ -4,7 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.juaracoding.smartpro_rest_api.core.IReport;
 import com.juaracoding.smartpro_rest_api.core.IService;
-import com.juaracoding.smartpro_rest_api.dto.report.StaffListDTO;
+import com.juaracoding.smartpro_rest_api.dto.report.RepStaffDTO;
 import com.juaracoding.smartpro_rest_api.dto.response.ResStaffDTO;
 import com.juaracoding.smartpro_rest_api.dto.response.ResStaffProfileDTO;
 import com.juaracoding.smartpro_rest_api.dto.validation.EditStaffDTO;
@@ -39,10 +39,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * Author: Reynaldi
- * Created date: 2025-06-11
- * Edited by: Michael
- * Edited date: 2025-06-14
+ * Author: Reynaldi, 2025-06-11
+ * Edited by: Michael, 2025-06-14
+ * Bugs fixed:
+ * - findAll function returns Map<String, Object> data instead of List<StaffListDTO> listDTO
  */
 
 @Service
@@ -51,7 +51,7 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
 
     @Autowired
     private Cloudinary cloudinary;
-    public static final String BASE_URL_IMAGE = System.getProperty("user.dir")+"\\image-saved";
+    public static final String BASE_URL_IMAGE = System.getProperty("user.dir") + "\\image-saved";
     private static Path rootPath;
 
 
@@ -74,36 +74,36 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
 
     @Override
     public ResponseEntity<Object> save(Staff staff, HttpServletRequest request) {
-        Map<String,Object> m = GlobalFunction.extractToken(request);
-        try{
-            if(staff == null){
-                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST,null,"AUT04FV001",request);
+        Map<String, Object> m = GlobalFunction.extractToken(request);
+        try {
+            if (staff == null) {
+                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "AUT04FV001", request);
             }
-            staff.setPassword(BCryptImpl.hash(staff.getUsername()+staff.getPassword()));
+            staff.setPassword(BCryptImpl.hash(staff.getUsername() + staff.getPassword()));
             staff.setCreatedBy(Long.parseLong(m.get("staffId").toString()));
             staffRepo.save(staff);
-        }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE001",request);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE001", request);
         }
         return GlobalResponse.dataCreated(request);
     }
 
     @Override
     public ResponseEntity<Object> update(Long id, Staff staff, HttpServletRequest request) {
-        Map<String,Object> m = GlobalFunction.extractToken(request);
-        try{
-            if(id == null){
+        Map<String, Object> m = GlobalFunction.extractToken(request);
+        try {
+            if (id == null) {
                 return GlobalResponse.bodyParamRequestNull("Param id is not provided!", "AUT04FV011", request);
             }
-            if(staff == null){
+            if (staff == null) {
                 return GlobalResponse.bodyParamRequestNull("Staff object is null!", "AUT04FV012", request);
             }
             Optional<Staff> opStaff = staffRepo.findById(id);
-            if(opStaff.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT04FV013",request);
+            if (opStaff.isEmpty()) {
+                return GlobalResponse.dataNotFound("AUT04FV013", request);
             }
             Staff staffDB = opStaff.get();
-            staffDB.setPassword(BCryptImpl.hash(staff.getUsername()+staff.getPassword()));
+            staffDB.setPassword(BCryptImpl.hash(staff.getUsername() + staff.getPassword()));
             staffDB.setFullName(staff.getFullName());
             staffDB.setRole(staff.getRole());
             staffDB.setUsername(staff.getUsername());
@@ -112,15 +112,14 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             staffDB.setUpdatedBy(Long.parseLong(m.get("staffId").toString()));
             staffDB.setPhotoProfileUrl(staff.getPhotoProfileUrl());
 
-        }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE011",request);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE011", request);
         }
         return GlobalResponse.dataUpdated(request);
     }
 
     /***
-     * Edited by : Michael
-     * Edited date : 2025-06-16
+     * Edited by : Michael, 2025-06-16
      * @param pageable
      * @param request
      * @return
@@ -129,11 +128,11 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
         Page<Staff> page = null;
         List<Staff> list = null;
-        List<StaffListDTO> listDTO = null;
-        Map<String,Object> data = null;
+        List<RepStaffDTO> listDTO = null;
+        Map<String, Object> data = null;
         try {
             page = staffRepo.findAll(pageable);
-            if(page.isEmpty()) {
+            if (page.isEmpty()) {
                 return GlobalResponse.dataNotFound("AUT04FV031", request);
             }
             listDTO = mapToDTO(page.getContent());
@@ -154,12 +153,12 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             }
             Optional<Staff> opUser = staffRepo.findById(id);
             if (opUser.isEmpty()) {
-                return GlobalResponse.dataNotFound("AUT04FV042",request);
+                return GlobalResponse.dataNotFound("AUT04FV042", request);
             }
             Staff staffDB = opUser.get();
             resStaffDTO = mapToDTO(staffDB);
         } catch (Exception e) {
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041", request);
         }
 
         return GlobalResponse.dataFound(resStaffDTO, request);
@@ -174,12 +173,12 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             }
             Optional<Staff> opUser = staffRepo.findById(id);
             if (opUser.isEmpty()) {
-                return GlobalResponse.dataNotFound("AUT04FV042",request);
+                return GlobalResponse.dataNotFound("AUT04FV042", request);
             }
             Staff staffDB = opUser.get();
             resStaffProfileDTO = mapToProfileDTO(staffDB);
         } catch (Exception e) {
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041",request);
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE041", request);
         }
 
         return GlobalResponse.dataFound(resStaffProfileDTO, request);
@@ -188,44 +187,59 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     @Override
     public ResponseEntity<Object> findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) {
         Page<Staff> page = null;
-        List<StaffListDTO> listDTO = null;
-        Map<String,Object> data = null;
+        List<RepStaffDTO> listDTO = null;
+        Map<String, Object> data = null;
         try {
-            switch (columnName){
-                case "full-name":page = staffRepo.findByFullNameContainsIgnoreCase(value,pageable);break;
-                case "phone-number":page = staffRepo.findByPhoneNumberContainsIgnoreCase(value,pageable);break;
+            switch (columnName) {
+                case "full-name":
+                    page = staffRepo.findByFullNameContainsIgnoreCase(value, pageable);
+                    break;
+                case "phone-number":
+                    page = staffRepo.findByPhoneNumberContainsIgnoreCase(value, pageable);
+                    break;
 //                case "tanggal-lahir":page = staffRepo.findByTanggalLahirContainsIgnoreCase(value,pageable);break;
-                case "username":page = staffRepo.findByUsernameContainsIgnoreCase(value,pageable);break;
-                default:page = staffRepo.findAll(pageable);
+                case "username":
+                    page = staffRepo.findByUsernameContainsIgnoreCase(value, pageable);
+                    break;
+                default:
+                    page = staffRepo.findAll(pageable);
             }
-            if(page.isEmpty()){
-                return GlobalResponse.dataNotFound("AUT04FV051",request);
+            if (page.isEmpty()) {
+                return GlobalResponse.dataNotFound("AUT04FV051", request);
             }
             listDTO = mapToDTO(page.getContent());
-            data = tp.transformPagination(listDTO,page,columnName,value);
-        }catch (Exception e){
-            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE051",request);
+            data = tp.transformPagination(listDTO, page, columnName, value);
+        } catch (Exception e) {
+            return GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE051", request);
         }
-        return GlobalResponse.dataFound(listDTO,request);
+        return GlobalResponse.dataFound(listDTO, request);
     }
 
     @Override
     public void downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response) {
         List<Staff> listStaff = null;
         try {
-            switch (column){
-                case "full-name":listStaff = staffRepo.findByFullNameContainsIgnoreCase(value);break;
-                case "phone-number":listStaff = staffRepo.findByPhoneNumberContainsIgnoreCase(value);break;
+            switch (column) {
+                case "full-name":
+                    listStaff = staffRepo.findByFullNameContainsIgnoreCase(value);
+                    break;
+                case "phone-number":
+                    listStaff = staffRepo.findByPhoneNumberContainsIgnoreCase(value);
+                    break;
 //                case "tanggal-lahir":page = staffRepo.findByTanggalLahirContainsIgnoreCase(value,pageable);break;
-                case "username":listStaff = staffRepo.findByUsernameContainsIgnoreCase(value);break;
-                default:listStaff = staffRepo.findAll();break;
+                case "username":
+                    listStaff = staffRepo.findByUsernameContainsIgnoreCase(value);
+                    break;
+                default:
+                    listStaff = staffRepo.findAll();
+                    break;
             }
-            if(listStaff.isEmpty()){
+            if (listStaff.isEmpty()) {
                 GlobalResponse.
-                        manualResponse(response,GlobalResponse.dataNotFound("AUT04FV071",request));
+                        manualResponse(response, GlobalResponse.dataNotFound("AUT04FV071", request));
                 return;
             }
-            List<StaffListDTO> listDTO = mapToDTO(listStaff);
+            List<RepStaffDTO> listDTO = mapToDTO(listStaff);
 
             String headerKey = "Content-Disposition";
             sBuild.setLength(0);
@@ -235,31 +249,31 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader(headerKey, headerValue);
 
-            Map<String,Object> map = GlobalFunction.convertClassToMap(new StaffListDTO());
+            Map<String, Object> map = GlobalFunction.convertClassToMap(new RepStaffDTO());
             List<String> listTemp = new ArrayList<>();
-            for (Map.Entry<String,Object> entry : map.entrySet()) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
                 listTemp.add(entry.getKey());
             }
             int intListTemp = listTemp.size();
-            String [] headerArr = new String[intListTemp];//kolom judul di excel
-            String [] loopDataArr = new String[intListTemp];//kolom judul java reflection
+            String[] headerArr = new String[intListTemp];//kolom judul di excel
+            String[] loopDataArr = new String[intListTemp];//kolom judul java reflection
 
             for (int i = 0; i < intListTemp; i++) {
                 headerArr[i] = GlobalFunction.camelToStandard(listTemp.get(i));
                 loopDataArr[i] = listTemp.get(i);
             }
             int intListDTOSize = listDTO.size();
-            String [][] strBody = new String[intListDTOSize][intListTemp];
+            String[][] strBody = new String[intListDTOSize][intListTemp];
             for (int i = 0; i < intListDTOSize; i++) {
                 map = GlobalFunction.convertClassToMap(listDTO.get(i));
                 for (int j = 0; j < intListTemp; j++) {
                     strBody[i][j] = String.valueOf(map.get(loopDataArr[j]));
                 }
             }
-            new ExcelWriter(strBody,headerArr,"sheet-1",response);
-        }catch (Exception e){
+            new ExcelWriter(strBody, headerArr, "sheet-1", response);
+        } catch (Exception e) {
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE071",request));
+                    manualResponse(response, GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE071", request));
             return;
         }
     }
@@ -268,70 +282,81 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
     public void generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response) {
         List<Staff> listStaff = null;
         try {
-            switch (column){
-                case "full-name":listStaff = staffRepo.findByFullNameContainsIgnoreCase(value);break;
-                case "phone-number":listStaff = staffRepo.findByPhoneNumberContainsIgnoreCase(value);break;
+            switch (column) {
+                case "full-name":
+                    listStaff = staffRepo.findByFullNameContainsIgnoreCase(value);
+                    break;
+                case "phone-number":
+                    listStaff = staffRepo.findByPhoneNumberContainsIgnoreCase(value);
+                    break;
 //                case "tanggal-lahir":page = staffRepo.findByTanggalLahirContainsIgnoreCase(value,pageable);break;
-                case "username":listStaff = staffRepo.findByUsernameContainsIgnoreCase(value);break;
-                default:listStaff = staffRepo.findAll();break;
+                case "username":
+                    listStaff = staffRepo.findByUsernameContainsIgnoreCase(value);
+                    break;
+                default:
+                    listStaff = staffRepo.findAll();
+                    break;
             }
-            if(listStaff.isEmpty()){
+            if (listStaff.isEmpty()) {
                 GlobalResponse.
-                        manualResponse(response,GlobalResponse.dataNotFound("AUT04FV081",request));
+                        manualResponse(response, GlobalResponse.dataNotFound("AUT04FV081", request));
                 return;
             }
-            List<StaffListDTO> listDTO = mapToDTO(listStaff);
+            List<RepStaffDTO> listDTO = mapToDTO(listStaff);
             int intRepUserDTOSize = listDTO.size();
-            Map<String,Object> mapResponse = new HashMap<>();
+            Map<String, Object> mapResponse = new HashMap<>();
             String strHtml = null;
             Context context = new Context();
-            Map<String,Object> mapColumnName = GlobalFunction.convertClassToMap(new StaffListDTO());
+            Map<String, Object> mapColumnName = GlobalFunction.convertClassToMap(new RepStaffDTO());
             List<String> listTemp = new ArrayList<>();
             List<String> listHelper = new ArrayList<>();
-            for (Map.Entry<String,Object> m:mapColumnName.entrySet()) {
+            for (Map.Entry<String, Object> m : mapColumnName.entrySet()) {
                 listTemp.add(GlobalFunction.camelToStandard(m.getKey()));
                 listHelper.add(m.getKey());
             }
 
-            Map<String,Object> mapTemp = null;
-            List<Map<String,Object>> listMap = new ArrayList<>();
+            Map<String, Object> mapTemp = null;
+            List<Map<String, Object>> listMap = new ArrayList<>();
             for (int i = 0; i < intRepUserDTOSize; i++) {
                 mapTemp = GlobalFunction.convertClassToMap(listDTO.get(i));
                 listMap.add(mapTemp);
             }
 
-            mapResponse.put("title","REPORT DATA MENU");
-            mapResponse.put("listKolom",listTemp);
-            mapResponse.put("listHelper",listHelper);
-            mapResponse.put("listContent",listMap);
-            mapResponse.put("totalData",intRepUserDTOSize);
-            mapResponse.put("username","Reywa");
+            mapResponse.put("title", "REPORT DATA MENU");
+            mapResponse.put("listKolom", listTemp);
+            mapResponse.put("listHelper", listHelper);
+            mapResponse.put("listContent", listMap);
+            mapResponse.put("totalData", intRepUserDTOSize);
+            mapResponse.put("username", "Reywa");
 
             context.setVariables(mapResponse);
-            strHtml = springTemplateEngine.process("global-report",context);
-            pdfGenerator.htmlToPdf(strHtml,"staff",response);
-        }catch (Exception e){
+            strHtml = springTemplateEngine.process("global-report", context);
+            pdfGenerator.htmlToPdf(strHtml, "staff", response);
+        } catch (Exception e) {
             GlobalResponse.
-                    manualResponse(response,GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE081",request));
+                    manualResponse(response, GlobalResponse.exceptionCaught("Error: " + e.getMessage(), "AUT04FE081", request));
             return;
         }
     }
 
-    /** additional function */
+    /**
+     * additional function
+     */
 
-    public Staff mapToUser(EditStaffDTO editStaffDTO){
+    public Staff mapToUser(EditStaffDTO editStaffDTO) {
         return modelMapper.map(editStaffDTO, Staff.class);
     }
 
-    public List<StaffListDTO> mapToDTO(List<Staff> listStaff){
-        return modelMapper.map(listStaff, new TypeToken<List<StaffListDTO>>(){}.getType());
+    public List<RepStaffDTO> mapToDTO(List<Staff> listStaff) {
+        return modelMapper.map(listStaff, new TypeToken<List<RepStaffDTO>>() {
+        }.getType());
     }
 
-    public ResStaffDTO mapToDTO(Staff user){
+    public ResStaffDTO mapToDTO(Staff user) {
         return modelMapper.map(user, ResStaffDTO.class);
     }
 
-    public ResStaffProfileDTO mapToProfileDTO(Staff user){
+    public ResStaffProfileDTO mapToProfileDTO(Staff user) {
         return modelMapper.map(user, ResStaffProfileDTO.class);
     }
 
@@ -352,23 +377,22 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Failed to store file.", e);
         }
     }
 
-    public ResponseEntity<Object> uploadImage(String username, MultipartFile file, HttpServletRequest request){
-        Map map ;
-        Map<String,Object> mapResponse ;
+    public ResponseEntity<Object> uploadImage(String username, MultipartFile file, HttpServletRequest request) {
+        Map map;
+        Map<String, Object> mapResponse;
         Optional<Staff> userOptional = staffRepo.findByUsername(username);
         if (userOptional.isEmpty()) {
-            return GlobalResponse.dataNotFound("",request);
+            return GlobalResponse.dataNotFound("", request);
         }
-        rootPath = Paths.get(BASE_URL_IMAGE+"/" + new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
+        rootPath = Paths.get(BASE_URL_IMAGE + "/" + new SimpleDateFormat("ddMMyyyyHHmmssSSS").format(new Date()));
         String strPath = rootPath.toAbsolutePath().toString();
-        String strPathImage = strPath+"\\"+file.getOriginalFilename();
+        String strPathImage = strPath + "\\" + file.getOriginalFilename();
         save(file);
 
         try {
@@ -386,7 +410,6 @@ public class StaffService implements IService<Staff>, IReport<Staff> {
         return ResponseEntity.status(HttpStatus.OK).body(m);
 //        return GlobalResponse.dataResponseObject(m,request);
     }
-
 
 
 }

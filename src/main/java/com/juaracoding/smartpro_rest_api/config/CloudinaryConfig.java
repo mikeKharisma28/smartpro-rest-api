@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+/***
+ * Author: Reynaldi, 2025-06-19
+ */
+
 @Configuration
 @PropertySource("classpath:cloudinary.properties")
 public class CloudinaryConfig {

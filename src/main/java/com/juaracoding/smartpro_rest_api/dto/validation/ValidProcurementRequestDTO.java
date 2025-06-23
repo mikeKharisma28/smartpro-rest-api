@@ -2,18 +2,14 @@ package com.juaracoding.smartpro_rest_api.dto.validation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.juaracoding.smartpro_rest_api.dto.relation.RelDivisionDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public class ProcurementRequestDTO {
+public class ValidProcurementRequestDTO {
 
     @NotNull(message = "This field cannot be null!")
     @Pattern(regexp = "^[a-zA-Z\\s]{5,50}$",message = "Format Invalid! Length allowed from 5 to 50 characters")
@@ -41,6 +37,9 @@ public class ProcurementRequestDTO {
 
     @Range(max = 3, message = "Only numeric are allowed, range of 0 to 3")
     private Integer status;
+
+    @NotNull(message = "Division can not be null")
+    private RelDivisionDTO division;
 
     // setters getters
     public String getItemName() {
@@ -89,5 +88,13 @@ public class ProcurementRequestDTO {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public RelDivisionDTO getDivision() {
+        return division;
+    }
+
+    public void setDivision(RelDivisionDTO division) {
+        this.division = division;
     }
 }

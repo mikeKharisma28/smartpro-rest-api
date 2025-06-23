@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface PurchaseRequestRepo extends JpaRepository<PurchaseRequest, String> {
     Optional<PurchaseRequest> findById(String id);
-    Optional<PurchaseRequest> findByStatus(Integer status);
+    Optional<PurchaseRequest> findByStatus(Short status);
 }

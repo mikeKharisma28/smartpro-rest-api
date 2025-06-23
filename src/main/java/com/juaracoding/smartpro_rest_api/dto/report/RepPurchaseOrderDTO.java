@@ -2,6 +2,10 @@ package com.juaracoding.smartpro_rest_api.dto.report;
 
 import java.math.BigDecimal;
 
+/***
+ * Author: Alfin, 2025-06-19
+ */
+
 public class RepPurchaseOrderDTO {
 
     private String purchaseOrderNo;

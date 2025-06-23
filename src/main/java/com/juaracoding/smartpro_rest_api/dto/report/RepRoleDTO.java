@@ -1,5 +1,13 @@
 package com.juaracoding.smartpro_rest_api.dto.report;
 
+/***
+ * Author: Michael, 2025-05-20
+ * Last edited by: Reynaldi, 2025-05-28
+ * Added:
+ * - Getters and Setters
+ * - Class renamed
+ */
+
 public class RepRoleDTO {
 
     private Long id;

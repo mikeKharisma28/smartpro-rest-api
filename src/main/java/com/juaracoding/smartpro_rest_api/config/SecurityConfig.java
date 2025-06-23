@@ -18,6 +18,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/***
+ * Author: Michael, 2025-05-30
+ */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

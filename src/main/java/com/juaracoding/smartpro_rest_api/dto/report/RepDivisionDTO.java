@@ -1,5 +1,12 @@
 package com.juaracoding.smartpro_rest_api.dto.report;
 
+/***
+ * Author: Michael, 2025-05-20
+ * Edited by: Reynaldi, 2025-05-28
+ * Bugs fixed:
+ * - Setters and Getters added
+ */
+
 public class RepDivisionDTO {
 
     private Long id;

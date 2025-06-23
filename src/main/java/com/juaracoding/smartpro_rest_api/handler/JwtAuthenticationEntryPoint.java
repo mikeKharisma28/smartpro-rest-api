@@ -14,6 +14,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/***
+ * Author: Michael, 2025-06-22
+ *
+ */
+
 @Component("customAuthenticationEntryPoint")
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

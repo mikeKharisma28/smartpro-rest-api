@@ -7,6 +7,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/***
+ * Author: Michael, 2025-05-17
+ * Last updated date: 2025-06-17
+ */
+
 @Entity
 @Table(name = "Menu", schema = "MasterData")
 public class Menu {

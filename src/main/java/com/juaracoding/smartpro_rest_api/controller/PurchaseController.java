@@ -12,6 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/***
+ * Author: Michael, 2025-06-21
+ * Functions added by: Alfin, 2025-06-08
+ */
+
 @RestController
 @RequestMapping("purchase")
 public class PurchaseController {
@@ -24,14 +29,14 @@ public class PurchaseController {
 
     // Endpoint untuk mendapatkan daftar request
     @GetMapping("/request")
-    @PreAuthorize("hasAuthority('PurchaseRequest')")
+//    @PreAuthorize("hasAuthority('PurchaseRequest')")
     public ResponseEntity<Object> requestList(HttpServletRequest request) {
         return ResponseEntity.ok(purchaseService.findAll(PageRequest.of(0, 10), request));
     }
 
     // Endpoint untuk request purchase baru
     @PostMapping("/request")
-    @PreAuthorize("hasAuthority('PurchaseRequest')")
+//    @PreAuthorize("hasAuthority('PurchaseRequest')")
     public ResponseEntity<Object> requestPurchase(
             @Valid @RequestBody PurchaseRequestDTO purchaseRequestDTO,
             HttpServletRequest request

@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+/***
+ * Author: Michael, 2025-05-30
+ */
+
 @Configuration
 @PropertySource("classpath:other.properties")
 public class OtherConfig {

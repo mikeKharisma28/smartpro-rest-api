@@ -23,6 +23,11 @@ import org.springframework.web.servlet.HandlerMapping;
  * Edited date: 2025-06-16
  */
 
+/***
+ * Author: Reynaldi, 2025-06-11
+ * Edited by: Michael, 2025-06-16
+ */
+
 @RestController
 @RequestMapping("menu")
 public class MenuController {

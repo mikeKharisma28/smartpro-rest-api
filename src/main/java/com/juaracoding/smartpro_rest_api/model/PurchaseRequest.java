@@ -8,6 +8,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/***
+ * Author: Michael, 2025-05-19
+ * Last updated date: 2025-05-28
+ */
+
 @Entity
 @Table(name = "PurchaseRequest", schema = "TransactionData")
 public class PurchaseRequest {
@@ -32,7 +37,7 @@ public class PurchaseRequest {
     private LocalDate itemReferenceUrl;
 
     @Column(name = "Status", nullable = false)
-    private Integer status;
+    private Short status;
 
     @Column(name = "CreatedBy", nullable = false, updatable = false)
     private Long createdBy;
@@ -102,11 +107,11 @@ public class PurchaseRequest {
         this.itemReferenceUrl = itemReferenceUrl;
     }
 
-    public Integer getStatus() {
+    public Short getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Short status) {
         this.status = status;
     }
 
